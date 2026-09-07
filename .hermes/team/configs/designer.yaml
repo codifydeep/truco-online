@@ -8,23 +8,18 @@ agent:
 platform_toolsets:
   cli: [file, skills, todo, memory, clarify]
   telegram: [file, skills, todo, memory, clarify]
-terminal: &terminal
-  backend: docker
+terminal:
+  backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
   timeout: 300
-  docker_image: estudo-hermes-saas:0.21.0
-  docker_mount_cwd_to_workspace: false
-  docker_volumes:
-    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online:/Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
-    - /Users/weber/.hermes/home/.config/gh:/opt/data/home/.config/gh:ro
-  docker_forward_env: [GH_CONFIG_DIR]
-  container_cpu: 1
-  container_memory: 2048
-  container_persistent: true
-  lifetime_seconds: 1800
+  home_mode: profile
 skills:
-  external_dirs: [/Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills]
+  external_dirs:
+    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
+    - /opt/data/skills/creative/design-md
+    - /opt/data/skills/creative/popular-web-designs
 auxiliary:
+  title_generation: {enabled: false}
   goal_judge: {provider: main, model: "qwen3.5:9b"}
 kanban: {review_dispatch: false, auto_decompose: false}
 group_sessions_per_user: false

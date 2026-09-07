@@ -14,25 +14,18 @@ toolsets: [kanban]
 platform_toolsets:
   cli: [web, file, skills, todo, memory, clarify]
   telegram: [web, file, skills, todo, memory, clarify]
-terminal: &terminal
-  backend: docker
+terminal:
+  backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
   timeout: 300
-  docker_image: estudo-hermes-saas:0.21.0
-  docker_mount_cwd_to_workspace: false
-  docker_volumes:
-    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online:/Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
-    - /Users/weber/.hermes/home/.config/gh:/opt/data/home/.config/gh:ro
-    - /var/run/docker.sock:/var/run/docker.sock
-  docker_forward_env: [GH_CONFIG_DIR]
-  container_cpu: 1
-  container_memory: 2048
-  container_persistent: true
-  lifetime_seconds: 1800
+  home_mode: profile
 skills:
   external_dirs:
     - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
+    - /opt/data/skills/research/grounded-citations
+    - /opt/data/skills/research/grounded-web-research-notes
 auxiliary:
+  title_generation: {enabled: false}
   goal_judge: {provider: main, model: "qwen3.5:9b"}
   kanban_decomposer: {provider: main, model: "qwen3.5:9b"}
   triage_specifier: {provider: main, model: "qwen3.5:9b"}
