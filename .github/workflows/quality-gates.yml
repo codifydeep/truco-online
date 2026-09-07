@@ -1,0 +1,43 @@
+name: quality-gates
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "release/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  governance:
+    runs-on: [self-hosted, linux, arm64, truco-local]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout completo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Testar o próprio guard
+        run: bash scripts/ci/test-test-integrity-guard.sh
+
+      - name: Proteger testes existentes
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          trusted_guard="$(mktemp)"
+          git show "${BASE_SHA}:scripts/ci/test-integrity-guard.sh" > "${trusted_guard}"
+          chmod +x "${trusted_guard}"
+          "${trusted_guard}" "${BASE_SHA}" "${HEAD_SHA}"
+
+      - name: Executar verificações do projeto
+        run: bash scripts/ci/run-project-checks.sh
+

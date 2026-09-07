@@ -1,0 +1,46 @@
+model: {default: "qwen3.5:9b", provider: ollama-local}
+providers:
+  ollama-local: {api: "http://host.docker.internal:11434/v1", discover_models: false, models: ["qwen3.5:9b"]}
+agent:
+  max_turns: 150
+  reasoning_effort: medium
+  disabled_toolsets: [delegation, computer_use, image_gen, video_gen]
+platform_toolsets:
+  cli: [terminal, file, skills, todo, memory, clarify]
+  telegram: [terminal, file, skills, todo, memory, clarify]
+terminal: &terminal
+  backend: docker
+  cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
+  timeout: 600
+  docker_image: estudo-hermes-saas:0.21.0
+  docker_mount_cwd_to_workspace: false
+  docker_volumes:
+    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online:/Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
+    - /Users/weber/.hermes/home/.config/gh:/opt/data/home/.config/gh:ro
+    - /var/run/docker.sock:/var/run/docker.sock
+  docker_forward_env: [GH_CONFIG_DIR]
+  container_cpu: 1
+  container_memory: 2048
+  container_persistent: true
+  lifetime_seconds: 1800
+skills:
+  external_dirs: [/Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills]
+auxiliary:
+  goal_judge: {provider: main, model: "qwen3.5:9b"}
+  review: {provider: main, model: "qwen3.5:9b"}
+kanban: {review_dispatch: false, auto_decompose: false}
+group_sessions_per_user: false
+telegram: &telegram
+  allowed_chats: []
+  group_allowed_chats: []
+  require_mention: true
+  exclusive_bot_mentions: true
+  observe_unmentioned_group_messages: true
+  allow_bots: mentions
+  reply_to_mode: false
+platforms:
+  telegram:
+    <<: *telegram
+    enabled: false
+session_reset: {mode: none}
+_config_version: 40
