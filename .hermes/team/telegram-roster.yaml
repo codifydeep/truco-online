@@ -1,15 +1,14 @@
 group:
   name: "Truco Online — Equipe"
-  chat_id: PENDING_TELEGRAM_GROUP
+  chat_id: -5584379349
 
 bots:
-  produto: {username: "@produto_truco_poc_bot", status: pending_botfather}
-  designer: {username: "@designer_truco_poc_bot", status: pending_botfather}
-  cto: {username: "@cto_truco_poc_bot", status: pending_botfather}
-  techlead: {username: "@techlead_truco_poc_bot", status: pending_botfather}
-  backend_data: {username: "@backend_data_truco_poc_bot", status: pending_botfather}
-  frontend: {username: "@frontend_truco_poc_bot", status: pending_botfather}
-  mobile: {username: "@mobile_truco_poc_bot", status: pending_botfather}
-  devops: {username: "@devops_truco_poc_bot", status: pending_botfather}
-  quality_security: {username: "@quality_sec_truco_poc_bot", status: pending_botfather}
-
+  produto: {username: "@pm_ux_researcher_bot", telegram_id: 8988567803, status: active}
+  designer: {username: "@designer_truco_poc_bot", telegram_id: 8872222695, status: active}
+  cto: {username: "@cto_truco_poc_bot", telegram_id: 8872298533, status: active}
+  techlead: {username: "@techlead_truco_poc_bot", telegram_id: 8933890444, status: active}
+  backend_data: {username: "@backend_data_truco_poc_bot", telegram_id: 8526917495, status: active}
+  frontend: {username: "@frontend_truco_poc_bot", telegram_id: 8894800198, status: active}
+  mobile: {username: "@mobile_truco_poc_bot", telegram_id: 8828136579, status: active}
+  devops: {username: "@devops_truco_poc_bot", telegram_id: 8877334668, status: active}
+  quality_security: {username: "@quality_sec_truco_poc_bot", telegram_id: 8746113721, status: active}
