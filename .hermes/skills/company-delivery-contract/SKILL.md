@@ -6,6 +6,7 @@ description: Govern a Hermes SaaS release from CEO brief through local homologat
 # Company delivery contract
 
 Read `AGENTS.md` and `docs/governance/release-lifecycle.md` before mutating the board or declaring progress.
+Use `.hermes/templates/release-controller.md` when creating a controller and `.hermes/templates/spike.md` when converting a repeated impasse into an experiment.
 
 ## Invariants
 
@@ -27,4 +28,3 @@ After two failed task attempts, diagnose and either correct prerequisites, split
 ## Homologation evidence
 
 Before setting `HOMOLOGADA`, verify the exact release commit, CI, deployed health checks, regression/E2E/security results, URL/API endpoints, mobile artifacts, and known limitations. Record the evidence in the controller card and release report.
-
