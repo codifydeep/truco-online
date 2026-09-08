@@ -35,3 +35,9 @@ Estas regras valem para todo o repositório.
 5. Dependência exclusivamente humana usa `BLOQUEADA_AGUARDANDO_CEO` e retoma do mesmo estado.
 6. Somente `HOMOLOGADA` é conclusão bem-sucedida; cancelamento exige ordem explícita do CEO.
 
+## Colaboração no Telegram
+
+1. Antes de um handoff, leia `.hermes/team/telegram-roster.yaml` e mencione o username real do próximo responsável.
+2. Inclua no handoff o ID do card, artefato ou evidência produzida, dependências e a ação objetiva esperada.
+3. Mencione apenas o próximo responsável por padrão; mencione vários bots somente quando os cards puderem avançar realmente em paralelo.
+4. Não envie confirmação ou promessa sem executar trabalho, registrar decisão, atualizar o Kanban ou formular uma pergunta objetiva.
