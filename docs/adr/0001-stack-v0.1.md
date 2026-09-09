@@ -17,7 +17,7 @@
 #### a) React Three Fiber (R3F) + three.js
 - Vantagem: Composição declarativa React, components reutilizáveis, scheduling de renderização demandada
 - Desvantagem: Learning curve para React se não utilizado anteriormente
-- Evidência: Sem overhead documentado comparado a plain Three.js; outperforms em escala devido ao scheduling demandado do React
+|- Evidência: Scheduling de renderização demandada, consumo CPU/GPU reduzido
 
 #### b) Vue + Vite3D / ou WebGL puro sem framework
 |- Vantagem: Bundle potencial menor com apenas WebGL
@@ -26,7 +26,7 @@
 
 #### c) Unity ou Unreal via WebBuildPipeline (WBP)
 |- Vantagem: Ferramentas profissionais, assets prontos
-|- Desvantagem: Build times longos, runtime pesado (META ~10MB+), dependências nativas, não adequado para PoC local
+|- Desvantagem: BUILD META tamanho de imagem ≥10MB, dependências nativas requerem ambientes específicos
 |- Veredito: Fora do escopo por tamanho e requisitos de ambiente
 
 ### Decisão
@@ -37,8 +37,8 @@
 - Compatibilidade total com React 18
 
 ### Performance budget (ARM64 local)
-|- META: Rasterização em ≤60 FPS na GPU integrada Apple M-series / similar ARM64 (validar via Chrome DevTools no hardware específico)
-|- META: Fallback suave para dispositivos sem aceleração de hardware (ESTIMATIVA: degradado visual com ~15-20 FPS, medir localmente)
+META: Rasterização em até 60 FPS na GPU integrada ARM64 (validar via Chrome DevTools no hardware específico)
+META: Fallback para dispositivos sem aceleração de hardware (ESTIMATIVA: degradado visual com 15-20 FPS, medir localmente)
 - Validação: Medir com `canvas.getContext('webgl')` e perfurar via Chrome DevTools Performance Tab
 
 ## 2. Render Modes para Three.js / R3F
@@ -51,7 +51,7 @@
 | never     | Renderiza apenas quando o estado muda                                                                  | Não usado - perde sincronização                  |
 | demand    | Controlado manualmente via invalidate() ou React state updates                                       | Selecionado para controle de consumo CPU/GPU     |
 
-#### Decisão: usar frameloop="demand" onde necessário
+#### Decisão: usar frameloop="demand" onde necessário, renderização demandada via React state e invalidate
 ```jsx
 <Canvas frameloop="demand" camera={{ position: [0, 0, 10] }}>
   {/* Render apenas quando o React state ou invalidate() forem chamados */}
@@ -196,7 +196,7 @@ db.transaction((players) => {
 
 ## 6. Segurança Básica
 
-### OWASP Top 10 mitigades para PoC:
+### OWASP Top 10 - Controles de higiene planejados para PoC:
 
 | Ameaça               | Mitigação                                                      |
 |----------------------|-----------------------------------------------------------------|
