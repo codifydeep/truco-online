@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Truco Online — Protótipo de Design v0.1</title>
+  <style>
+    :root {
+      --felt-green: #32503C; /* RGB(50,80,60) */
+      --wood-light: rgb(180,160,120);
+      --ui-primary: #fff;
+      --ui-error: rgb(240,80,80);
+      --card-white: #f4e9cf;
+      --card-back: #2E5C8A;
+      --text-on-light: #1a1a1a;
+      --text-on-dark: #ffffff;
+      --border-radius-md: 8px;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+    }
+    /* Lobby (2D) */
+    #lobby {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--felt-green), #1e8449);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: var(--text-on-light);
+      gap: 16px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #lobby.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05) translateY(-20px);
+    }
+    .lobby-title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+    }
+    .player-badge {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--text-on-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-count {
+      background: #FFD700;
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
+    }
+    #player-input-group {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    #nickname-input {
+      padding: 10px 12px;
+      border-radius: var(--border-radius-md);
+      border: 2px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.2);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+    #nickname-input::placeholder { color: rgba(255,255,255,0.4); }
+    button.btn-primary {
+      background: #FFB84D;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      color: #2e3a24;
+      cursor: pointer;
+      transition: transform 120ms ease, background 150ms ease;
+    }
+    button.btn-primary:hover { background: #FFC766; transform: translateY(-1px); }
+    button.btn-primary:active { transform: translateY(0); }
+
+    /* Game room (3D simulated) - simula o ambiente imersivo com perspectiva isométrica */
+    #game-room {
+      position: absolute;
+      inset: 0;
+      perspective: 1200px;
+      opacity: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 40%, #3e694a, var(--felt-green));
+    }
+    #game-room.visible {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .table-top {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%) rotateX(25deg) rotateZ(10deg);
+      width: clamp(360px, 30vw, 580px);
+      height: clamp(260px, 22vw, 400px);
+      background: var(--felt-green);
+      border-radius: 80px;
+      box-shadow: inset 0 10px 30px rgba(0,0,0,0.5),
+                    0 20px 60px rgba(0,0,0,0.4);
+    }
+    .table-top::after {
+      content: "TRUCO ONLINE";
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(18px,1.5vw,24px);
+      color: rgba(46,92,138,0.7);
+      font-weight: 700;
+    }
+    /* Jogadores posicionados */
+    .player-pip {
+      position: absolute;
+      width: clamp(56px, 6vw, 80px);
+      height: clamp(56px, 6vw, 80px);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .player-pip.a { top: 38%; left: 50%; transform-origin: bottom left; transform: translate(-50%,-50%) translateX(240px); }
+    .player-pip.b { bottom: 38%; right: 50%; transform-origin: bottom right; transform: translate(-50%,-50%) translateX(-240px); }
+    /* Cartas no jogo */
+    .cards-area {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: clamp(380px, 32vw, 600px);
+      height: clamp(140px, 12vw, 180px);
+      transform: translate(-50%, -50%);
+    }
+    .card {
+      width: 32px; height: 46px;
+      background: var(--card-back);
+      border-radius: 4px;
+      margin-right: 3px;
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+    }
+    .cards-area.face-up { width: clamp(280px, 26vw, 400px); }
+    /* UI overlays na mesa */
+    #game-ui-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #turn-indicator {
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(46,92,138,0.9);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      pointer-events: auto;
+    }
+    #score-board {
+      position: absolute;
+      bottom: 12px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(46,92,138,0.9);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      text-align: center;
+    }
+    /* Estado de loading */
+    #game-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(2px);
+      z-index: 1;
+      pointer-events: none;
+    }
+    #game-loading span {
+      font-size: clamp(18px,2vw,24px);
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    /* Badges */
+    .critical-badge-top {
+      position: absolute;
+      top: 8px; left: 8px; right: 8px;
+      background: var(--ui-error);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* Modal de erro */
+    .modal-backdrop {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      z-index: 10;
+    }
+    .modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+    .modal-card {
+      background: #fff;
+      border-radius: var(--border-radius-md);
+      padding: 20px 24px;
+      text-align: center;
+      max-width: clamp(320px,50vw,420px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .modal-icon { font-size: 36px; margin-bottom: 8px; }
+    .modal-title { font-weight: 700; font-size: clamp(18px,2vw,24px); color: #000; }
+    .modal-message { font-size: 14px; color: #666; margin-top: 6px; }
+
+    /* Modo calmo (redução de movimento) */
+    body.calma-mode #lobby.hidden { opacity: 0; }
+    body.calma-mode button.btn-primary:hover { transform: none; }
+    /* Animações desaceleradas para modo calm */
+    body.calma-mode .lobby-title, body.calma-mode #game-room.visible {
+      transition-duration: clamp(800ms,5vw,1200ms) !important;
+    }
+
+    @media (max-width: 640px) {
+      .table-top {
+        width: clamp(280px, 30vw, 320px);
+        height: clamp(200px, 18vw, 240px);
+      }
+      .player-pip { width: clamp(40px, 6vw, 56px); height: clamp(40px, 6vw, 56px); font-size: 11px; }
+      #score-board { font-size: 12px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lobby / 2D -->
+  <div id="lobby">
+    <div class="critical-badge-top" style="display:none;">❌ Erro de conexão — verifique o servidor local</div>
+
+    <h1 class="lobby-title">Truco Online</h1>
+    <div class="player-badge" id="occupancy-hint">
+      ● <span id="current-occupancy-text">0</span>/2 jogadores na sala
+    </div>
+    <div class="player-badge">
+      🎮 Jogador A — você pode criar uma nova partida abaixo
+    </div>
+    <div id="player-input-group" style="display:none;">
+      <input type="text" id="nickname-input" placeholder="Seu apelido para esta partida" autocomplete="off" />
+      <button class="btn-primary" onclick="startGame()">Entrar no jogo</button>
+    </div>
+    <div id="game-start-hint" style="font-size:13px; color:#ccc; text-align:center; max-width:400px;">
+      Abra em outra aba deste navegador para simular o Jogador 2 criando um novo apelido.
+    </div>
+  </div>
+
+  <!-- Game room overlay (3D simulated) -->
+  <div id="game-room">
+    <div class="table-top">
+      <!-- Cards simuladas no centro da mesa -->
+      <div class="cards-area" id="cards-pile"></div>
+    </div>
+    <!-- Pips do jogador -->
+    <div class="player-pip a" title="Você (Jogador A)"><span id="p1-nick">Jogador A</span></div>
+    <div class="player-pip b" title="Jogador oponente (Jogador B)"><span id="p2-nick">Jogador B</span></div>
+
+    <!-- UI sobreposições -->
+    <div id="game-ui-overlay">
+      <div id="turn-indicator">Clique para virar as cartas e iniciar a partida</div>
+      <div id="score-board">Placar: 2x vs 3x — Ninguém ganhou ainda</div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="game-loading">
+      <span id="loading-text">Carregando mesa...</span>
+    </div>
+
+    <!-- Modal de erro (room full) -->
+    <div class="modal-backdrop" id="room-full-modal">
+      <div class="modal-card">
+        <div class="modal-icon" title="⚠️">👥</div>
+        <p class="modal-title">Sala cheia!</p>
+        <p class="modal-message">Esta partida já tem dois jogadores. Aguarde alguém sair ou crie um novo jogo.</p>
+      </div>
+    </div>
+
+    <!-- Erro de conexão timeout -->
+    <div class="modal-backdrop" id="connection-error-modal" style="display:none;">
+      <div class="modal-card">
+        <div class="modal-icon">🔌</div>
+        <p class="modal-title">Erro de conexão</p>
+        <p class="modal-message">Não pôde conectar ao servidor local. Verifique sua rede e tente novamente.</p>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  const state = {
+    players: 0,
+    roomFull: false,
+    playerName: "Jogador A",
+    canStart: false
+  };
+
+  // Badge de ocupação
+  function updateOccupancy() {
+    document.getElementById('current-occupancy-text').textContent = state.players;
+    const countEl = document.querySelector('.badge-count');
+    if (countEl) countEl.textContent = state.players + "/2";
+
+    if (state.players === 0) {
+      document.getElementById('player-input-group').style.display = 'flex';
+      document.querySelector('#occupancy-hint span').textContent = "0";
+      document.querySelector('.badge-count')?.classList.add('badge-empty');
+      // habilitar start quando um oponente entra (simulação: se jogador B fosse entrar, state.players viraria 1)
+    } else if (state.players === 1) {
+      document.getElementById('player-input-group').style.display = 'none';
+      document.querySelector('#occupancy-hint span').textContent = "1";
+      document.querySelector('.badge-count')?.classList.add('badge-waiting');
+      state.canStart = true;
+    } else if (state.players === 2) {
+      document.getElementById('player-input-group').style.display = 'none';
+      document.querySelector('#occupancy-hint span').textContent = "●";
+      state.roomFull = true;
+      showRoomFullModal();
+    }
+
+    // Simulação: cada 5s incrementa "players" para demo
+    state.players = (Math.random() > 0.8) ? 1 : Math.max(0, state.players - 1);
+    if (state.players % 2 === 0) {
+      // resetar estado de sala cheia após 2s
+      setTimeout(() => {
+        state.roomFull = false;
+        document.getElementById('room-full-modal').classList.remove('visible');
+      }, 2000);
+    }
+    updateOccupancy();
+  }
+
+  function startGame() {
+    if (state.players < 1) alert("Aguarde um oponente conectar antes de iniciar a partida.");
+    else {
+      // Esconde lobby, mostra mesa carregando cartas
+      document.getElementById('lobby').classList.add('hidden');
+      const loading = document.getElementById('game-loading');
+      const cardsPile = document.getElementById('cards-pile');
+
+      loading.classList.add('visible');
+      setTimeout(() => {
+        loading.classList.remove('visible');
+        // Embaralha e desenha cartas para visual de partida ativa
+        for (let i = 0; i < 8; i++) {
+          const card = document.createElement('div');
+          card.className = 'card face-up';
+          cardsPile.appendChild(card);
+        }
+      }, 600);
+    }
+  }
+
+  function showRoomFullModal() {
+    document.getElementById('room-full-modal').classList.add('visible');
+  }
+
+  // Simular ambiente offline detectando perda de conexão
+  window.addEventListener('offline', () => {
+    console.warn('Offline detected');
+    alert("Conexão perdida! Recarregue para reconectar ao servidor local.");
+  });
+
+  // Atualizador de ocupação (simulação)
+  setInterval(updateOccupancy, 1500);
+
+</script> </body></html>
