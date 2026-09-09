@@ -17,17 +17,17 @@
 #### a) React Three Fiber (R3F) + three.js
 - Vantagem: Composição declarativa React, components reutilizáveis, scheduling de renderização demandada
 - Desvantagem: Learning curve para React se não utilizado anteriormente
-- Evidência: No overhead comparado a plain Three.js; outperforms em escala devido ao scheduling do React
+- Evidência: Sem overhead documentado comparado a plain Three.js; outperforms em escala devido ao scheduling demandado do React
 
 #### b) Vue + Vite3D / ou WebGL puro sem framework
-- Vantagem: Menor bundle potencial com apenas WebGL
-- Desvantagem: Sem estrutura de composições, state management manual, menos exemplos e comunidade
-- Veredito: Não recomendado pela falta de ecosistema e suporte a componentes complexos como UI sobreposto 3D
+|- Vantagem: Bundle potencial menor com apenas WebGL
+|- Desvantagem: Sem estrutura de composições, state management manual, menos exemplos e comunidade
+|- Veredito: Não recomendado pela falta de ecosistema e suporte a componentes complexos como UI sobreposto 3D
 
 #### c) Unity ou Unreal via WebBuildPipeline (WBP)
-- Vantagem: Ferramentas profissionais, assets prontos
-- Desvantagem: Build times longos, runtime pesado (~10MB+), dependências nativas, não adequado para PoC local
-- Veredito: Fora do escopo por tamanho e requisitos de ambiente
+|- Vantagem: Ferramentas profissionais, assets prontos
+|- Desvantagem: Build times longos, runtime pesado (META ~10MB+), dependências nativas, não adequado para PoC local
+|- Veredito: Fora do escopo por tamanho e requisitos de ambiente
 
 ### Decisão
 **R3F + three.js** selecionado pelo:
@@ -37,8 +37,8 @@
 - Compatibilidade total com React 18
 
 ### Performance budget (ARM64 local)
-- META: Rasterização em ≤60 FPS na GPU integrada Apple M-series / similar ARM64
-- META: Fallback suave para dispositivos sem aceleração de hardware (~15-20 FPS degradados visualmente)
+|- META: Rasterização em ≤60 FPS na GPU integrada Apple M-series / similar ARM64 (validar via Chrome DevTools no hardware específico)
+|- META: Fallback suave para dispositivos sem aceleração de hardware (ESTIMATIVA: degradado visual com ~15-20 FPS, medir localmente)
 - Validação: Medir com `canvas.getContext('webgl')` e perfurar via Chrome DevTools Performance Tab
 
 ## 2. Render Modes para Three.js / R3F
@@ -136,17 +136,16 @@ interface EventPayload {
 - Nota: Melhor opção apenas para Node 22.5+ sem add-deps
 
 #### b) sql.js (SQLite no WebAssembly)
-- Vantagem: Executa no cliente, zero-nativo
-- Desvantagem: ~10x mais lento que native, não para servidor
-- Veredito: Não usado - o estado da partida vive no servidor; apenas stats/analytics poderiam ser client-side
+|- Vantagem: Executa no cliente, zero-nativo
+|- Desvantagem: META ~10x mais lento que native, não para servidor
+|- Veredito: Não usado - o estado da partida vive no servidor; apenas stats/analytics poderiam ser client-side
 
-### Decisão
+#### Decisão
 **better-sqlite3** selecionado por:
-- API síncrona que é ideal para SQLite (single-writer)
-- Operação em microssegundos (< overhead do event loop Node.js)
-- WAL mode nativo, transações de nível 1
-- ~9.3M downloads semanais - ecossistema maduro
-- Drizzle ORM, Kysely, Prisma suportam este driver "default"
+|- API síncrona que é ideal para SQLite (single-writer)
+|- Operação em microssegundos (< overhead do event loop Node.js)
+|- WAL mode nativo, transações de nível 1
+|- Ecosystem maduro - default driver suportado por Drizzle ORM, Kysely, Prisma
 
 #### Configuração obrigatória:
 ```typescript
@@ -229,9 +228,9 @@ Incorporar em Docker Compose como volume.
 
 ## 8. Docker e Arm64 Local
 
-### Imagens oficiais recomendadas por size e layer caching:
+### Imagens oficiais recomendadas por tamanho e layer caching
 
-| Servico               | Imagem                    | Tamanho (~)   | Uso                                              |
+| Servico               | Imagem                    | Tamanho (META) | Uso                                              |
 |-----------------------|---------------------------|----------------|--------------------------------------------------|
 | Node.js backend       | node:20-alpine            | ~150MB         | Servidor + Socket.IO                              |
 | SQLite data           | Alpine Linux base         | ~3MB           | Montado como volume para persistência             |
@@ -272,15 +271,14 @@ volumes:
 ## 9. Roadmap e Metricas Futuras (META e ESTIMATIVA)
 
 - META v1: Medir tempo de build <2min via pnpm com lockfile (cache pnpm cache)
-- ESTIMATIVA v3: Reduzir bundle principal (<500KB gzip) por tree-shaking R3F
+- ESTIMATIVA v3: Reduzir tamanho do bundle principal (<500KB gzip) por tree-shaking R3F (medir via webpack-bundle-analyzer)
 
 Medindo apenas com:
 ```bash
 # Bundle analysis (por exemplo, com webpack-bundle-analyzer):
 pnpm run build && npx webpack-bundle-analyzer -p dist/stats.json
 
-# Runtime FPS (browser devtools Performance):
-# Abre Recording - Análisis do tree no "Rendering" tab. # Captura de imagens em performance.now() - não usar sem marcar timestamp + versionagem.
+# Runtime FPS: medir via Chrome DevTools Performance — abrir Recording e analisar o tree no "Rendering" tab. Capturar imagens em performance.now() apenas com timestamp e versionagem registrados.
 
 # SQLite query latency: db.prepare('SELECT rowid FROM games...').time() em us
 ```
