@@ -142,10 +142,10 @@ interface EventPayload {
 
 #### Decisão
 **better-sqlite3** selecionado por:
-|- API síncrona que é ideal para SQLite (single-writer)
-|- Operação em microssegundos (< overhead do event loop Node.js)
-|- WAL mode nativo, transações de nível 1
-|- Ecosystem maduro - default driver suportado por Drizzle ORM, Kysely, Prisma
+||- API síncrona que é ideal para SQLite (single-writer)
+||- Operação síncrona evita async boundary do event loop Node.js
+||- WAL mode nativo, transações de nível 1
+||- Ecosystem maduro - default driver suportado por Drizzle ORM, Kysely, Prisma
 
 #### Configuração obrigatória:
 ```typescript
