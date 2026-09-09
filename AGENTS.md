@@ -20,6 +20,7 @@ Estas regras valem para todo o repositório.
 7. Depois de abrir e verificar o PR, o implementador usa a transição nativa `request-review` no mesmo card e informa o perfil revisor; não conclui o card antes da revisão.
 8. O revisor conclui o mesmo card quando aprova ou usa `request-changes` com motivos concretos, o que o devolve ao implementador original. Não crie um card de revisão separado para novos trabalhos.
 9. Como a PoC usa uma única conta GitHub, registre o perfil Hermes e o veredito em comentário no PR e no evento de revisão do Kanban; não tente adicionar usernames do Telegram como reviewers do GitHub.
+10. Um worktree pode ter sido criado antes de seus cards-pai serem integrados. Antes da primeira edição, com a árvore limpa, faça `git fetch origin`, confirme a release ativa e atualize a branch do card sobre `origin/release/vX.Y`; registre a base usada. Nunca implemente sobre uma cópia anterior às dependências concluídas.
 
 ## TDD e regressão
 
