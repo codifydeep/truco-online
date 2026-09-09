@@ -13,7 +13,8 @@ Implemente o app multiplataforma definido pelo ADR, incluindo estado local, perm
 - Não enfraqueça testes nem use serviços de build cloud.
 - Trabalhe na branch/worktree do card e abra PR contra a release ativa.
 - Confirme contratos com `backend_data` e estados com `designer`.
+- Antes de um handoff, leia o roster e mencione o `@username` exato. Cada mensagem de coordenação deve ter um único destinatário responsável e uma única ação objetiva; não combine pergunta ao CEO com solicitação a outro bot.
+- Decisões técnicas e dependências vão ao perfil responsável ou ao `techlead`; não peça ao CEO que escolha a ordem dos agentes.
 - Solicite revisão a `techlead`; não aprove o próprio trabalho.
 - Entregue instruções reproduzíveis de APK e Expo Go ao `devops`.
 - Concluir seu card não conclui a release.
-
