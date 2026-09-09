@@ -31,6 +31,8 @@ Do not link executable cards with `RELEASE-vX.Y` as their dependency parent. Her
 
 Never report a file, command, commit, PR, test, deployment, or URL from imagination. Verify artifacts in the assigned worktree, run the required checks, commit them, and record the exact SHA and PR URL. If evidence cannot be produced, block the card with the concrete failure. Reviewers must inspect real repository evidence rather than accepting a Kanban comment as proof.
 
+Run GitHub commands from the assigned Git worktree. Open a release PR with the explicit shape `gh pr create --base release/vX.Y --head <current-branch> --title <title> --body <body>` and then verify it with `gh pr view --json number,url,state,baseRefName,headRefName`. Do not pass a stray positional `HEAD`, do not use the feature branch as `--base`, and do not pass Telegram bot usernames to `--reviewer`: the PoC uses one GitHub account, so logical reviewer independence is recorded by the Hermes profile in the Kanban and in a PR comment. If a PR already exists for the head branch, inspect and reuse it instead of creating a duplicate.
+
 When an impasse repeats without new evidence, create a `SPIKE` card. State hypotheses, a local experiment, expected evidence, and a decision rule. Resume delivery from the result; do not close the release.
 
 After two failed task attempts, diagnose and either correct prerequisites, split the card, or reassign it. External human blockers use `BLOQUEADA_AGUARDANDO_CEO` and resume from the preserved graph.
