@@ -46,6 +46,8 @@ Estas regras valem para todo o repositório.
 4. Não envie confirmação ou promessa sem executar trabalho, registrar decisão, atualizar o Kanban ou formular uma pergunta objetiva.
 5. Escrever o nome de um papel, como “CTO”, sem o username Telegram não aciona esse perfil; use sempre a menção registrada no roster.
 6. Depois da aprovação do Product Brief, não peça ao CEO para escolher agente, ordem de implementação, stack ou paralelização. Essas decisões pertencem ao Tech Lead e ao CTO.
+7. Cada mensagem de coordenação deve ter um único destinatário responsável e uma única ação objetiva. Nunca combine, na mesma mensagem, uma pergunta ao CEO com uma solicitação a outro bot.
+8. Pergunta dirigida a um agente deve começar com o `@username` exato desse agente. Se a decisão não for humana, atualize ou crie o card correspondente e acione o agente; não termine a mensagem aguardando o CEO.
 
 ## Identificadores canônicos dos perfis
 
