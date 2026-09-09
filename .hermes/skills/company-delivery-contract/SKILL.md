@@ -27,6 +27,10 @@ Use only the canonical Kanban assignees `produto`, `designer`, `cto`, `techlead`
 
 After the CEO approves the Product Brief, `produto` must persist it in the repository, complete the discovery card, and hand off explicitly to `@techlead_truco_poc_bot`. From then on, the Tech Lead owns ordering, dependencies, parallelism, and specialist assignment. Product must not implement UI, backend, infrastructure, tests, or production code and must not ask the CEO to select an implementer.
 
+Do not link executable cards with `RELEASE-vX.Y` as their dependency parent. Hermes releases a child only after its parent is done, but the controller must stay open until homologation. Track release membership in controller comments/metadata and use links only for dependencies that are expected to complete.
+
+Never report a file, command, commit, PR, test, deployment, or URL from imagination. Verify artifacts in the assigned worktree, run the required checks, commit them, and record the exact SHA and PR URL. If evidence cannot be produced, block the card with the concrete failure. Reviewers must inspect real repository evidence rather than accepting a Kanban comment as proof.
+
 When an impasse repeats without new evidence, create a `SPIKE` card. State hypotheses, a local experiment, expected evidence, and a decision rule. Resume delivery from the result; do not close the release.
 
 After two failed task attempts, diagnose and either correct prerequisites, split the card, or reassign it. External human blockers use `BLOQUEADA_AGUARDANDO_CEO` and resume from the preserved graph.

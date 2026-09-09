@@ -59,3 +59,11 @@ Use somente estes identificadores em `assignee`, `reassign`, automações e meta
 - `quality_security`
 
 Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`, `developer` ou `qa-tester`. Antes de criar ou reatribuir cards, valide o identificador no roster e em `hermes kanban assignees`. Um responsável que não exista em disco torna o card não executável.
+
+## Evidência mínima de entrega
+
+1. Não afirme que um arquivo foi salvo, um teste foi executado, um commit foi criado ou um PR foi aberto sem comprovar isso com ferramentas no worktree do card.
+2. Antes de concluir um card com artefatos, verifique a existência dos arquivos, execute `git diff --check`, faça commit e registre o SHA e a URL do PR contra `release/vX.Y`.
+3. Comentário no Kanban ou mensagem no Telegram não substitui arquivo, commit, PR ou saída de teste.
+4. Se uma ferramenta indispensável não estiver disponível, bloqueie o card com diagnóstico objetivo. Nunca simule a entrega em texto.
+5. Revisores devem inspecionar o PR, o commit e os arquivos reais. Se qualquer evidência estiver ausente, solicite mudanças ou crie uma recuperação; não aceite a narrativa do implementador como prova.

@@ -30,10 +30,17 @@ Estados lógicos permitidos:
 ## Persistência e falhas
 
 - O card controlador permanece vivo enquanto houver filhos pendentes.
+- O controlador não deve ser ligado como pré-requisito pai de cards executáveis: no Hermes, o filho só é liberado quando o pai termina, enquanto o controlador deve permanecer aberto até a homologação. Registre a associação dos cards nos comentários/metadados do controlador e use links somente entre dependências executáveis.
 - Uma execução sem sucesso pode ser tentada duas vezes automaticamente; depois disso, o Tech Lead diagnostica, divide, corrige pré-condições ou reatribui.
 - O bloqueio de um card não conclui nem cancela a release.
 - Não existir card imediatamente executável não autoriza declarar sucesso.
 - Só o CEO pode cancelar uma release.
+
+## Evidência antes de progresso
+
+- Um artefato só existe quando estiver presente no worktree, versionado em commit e referenciado por PR contra a branch da release.
+- Uma descrição textual de conteúdo não comprova que o arquivo foi criado.
+- O Tech Lead deve validar caminho, SHA, PR e CI antes de aceitar a conclusão e liberar dependentes.
 
 ## Watchdog de progresso
 
@@ -58,4 +65,3 @@ O resultado deve ser anexado ao card ou persistido no repositório. Se nenhuma o
 - Verificações de segurança aprovadas ou riscos explicitamente aceitos pelo CEO.
 - URL web/API, APK Android e instruções Expo Go entregues quando aplicáveis.
 - Evidências e limitações registradas no relatório da release.
-

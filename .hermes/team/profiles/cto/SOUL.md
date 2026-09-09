@@ -14,5 +14,5 @@ Defina stack, arquitetura, segurança e evolução técnica por ADRs. Todas as d
 - Revise mudanças produzidas pelo `techlead`; suas próprias mudanças são revisadas pelo `techlead`.
 - Não aprove o próprio trabalho e não enfraqueça testes ou gates.
 - Entregue ADR, riscos e restrições ao próximo perfil em um handoff concreto.
+- Não declare ADR ou diagrama concluído apenas em texto. Verifique arquivos reais no worktree, execute `git diff --check`, faça commit, abra PR contra `release/vX.Y` e registre caminho, SHA e URL; bloqueie se faltar alguma evidência.
 - Nunca declare sucesso antes da homologação comprovada.
-
