@@ -1,14 +1,14 @@
 # Backlog do Truco Paulista v0.1 — Histórias por Epic
 
 **Versão:** 0.1
-**Status:** Em preparação para review
+**Status:** Draft para homologação
 **Criador:** produto (rework post-revisão)
 
 ---
 
 ## Introdução
 
-Este backlog descompõe o Product Brief aprovado em epics e histórias de usuário, alinhadas aos critérios de aceitação funcionais do Truco Paulista v0.1. As histórias abaixo devem entregar uma experiência jogável para duas pessoas num navegador local, respeitando as regras da variante Paulista (manilha rotativa, pontuação 1/3/6/9/12 por mão) e sem inventar elementos fora do escopo (como dealer, mao de ferro ou pontuações alternativas).
+Este backlog descompõe o Product Brief aprovado em epics e histórias de usuário, alinhadas aos critérios de aceitação funcionais do Truco Paulista v0.1. As histórias abaixo devem entregar uma experiência jogável para duas pessoas num navegador local, respeitando as regras da variante Paulista (manilha rotativa, pontuação 1/3/6/9/12 por mão) e sem inventar elementos fora do escopo (como dealer, mão de ferro ou pontuações alternativas).
 
 Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específicas; o Designer deve transformar os critérios observáveis em fluxo visual e transição 2D→3D conforme o Brief.
 
@@ -111,7 +111,7 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 **Como jogador,** quero que cada rodada (vaza) tenha um vencedor, que ganha os pontos daquela rodada; quem perder a rodada não leva pontos da rodada nem da mão inteira.
 
 **Critérios de aceite:**
-- Cada mão tem várias rodadas (tricks); quem vencer mais rodadas leva a manobras e assim a mão. A última rodada é decisiva — não há empate na mão toda.
+- Cada mão tem várias rodadas (tricks); quem vencer mais rodadas leva as manaobras e assim a mão. A última rodada é decisiva — não há empate na mão toda.
 - Quem ganha uma rodada toma os pontos daquela rodada; o vencedor da mano é quem soma mais pontos nas três rodadas (ou menos se só houver uma ou duas) — mas apenas no limite de 12 total para ganhar a partida.
 
 **Observação:** Não existem "empates" na mão inteira; as rodadas são ganhas por quem tem manilha e força, com a última rodada decidindo sempre. Empate de todas as mãos seria um empate da partida, mas o Brief define que "A partida termina ao atingir o limiar de pontos configurado".
@@ -219,6 +219,8 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 
 ---
 
-**Handoff para Tech Lead:** Product entregou backlog estruturado por epics e histórias com critérios observáveis conforme o Brief e as regras de Paulista. O Tech Lead deve decompor em tasks técnicas específicas (frontend, backend local, 3D engine), decidir sobre persistência de estado (session storage vs in-memory) e planejar a transição visual 2D→3D.
+## Handoff para Tech Lead
+
+Product entregou backlog estruturado por epics e histórias com critérios observáveis conforme o Brief e as regras de Paulista. O Tech Lead deve decompor em tasks técnicas específicas (frontend, backend local, 3D engine), decidir sobre persistência de estado (session storage vs in-memory) e planejar a transição visual 2D→3D.
 
 ---

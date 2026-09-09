@@ -2,7 +2,7 @@
 
 **Versão:** v0.1
 **Data de publicação:** 2026-09-09
-**Status:** Aprovado pelo CEO (TRUco Online v0.1)
+**Status:** Draft para homologação
 
 ---
 
@@ -11,9 +11,8 @@
 Uma partida de Truco Paulista consiste em disputar pontos por mãos, onde cada mão vale 1, 3, 6, 9 ou 12 pontos. O objetivo é alcançar o primeiro a determinado limiar de pontos (padrão: 12 pontos). Cada mão é composta por até três rodadas (_tricks_), e quem vencer a mão leva os pontos da aposta naquela mão.
 
 **Fontes consultadas:**
-- Jogatina — Regras do Truco Paulista online (https://www.jogatina.com/truco-paulista-online.html) — acessado 2026-09-09.
-- Pagat — Brazilain Truco rules (Truco Paulista section), https://www.pagat.com/put/truco_br.html — acessado 2026-09-09.
-- Vale Seis — Como jogar Truco (variantes Paulista e Mineira) — https://valeseis.com.br/learn — acessado 2026-09-09.
+- Copag — Afinal como se joga o Truco Paulista: https://blog.copag.com.br/blog/a-copag/afinal-como-se-joga-o-truco-paulista — acessado 2026-09-09.
+- Jogatina — Regras do Truco Paulista: https://s3.amazonaws.com/static.jogatina.com/downloads/truco-paulista/regras-truco-paulista.pdf — acessado 2026-09-09.
 
 ---
 
@@ -33,7 +32,7 @@ Uma partida de Truco Paulista consiste em disputar pontos por mãos, onde cada m
   - Se vira = 5 → manilhas são todas as cartas ≥ 5 na hierarquia (i.e., 6, Q, J, K, A, 2, 3 — mais 4 dependendo do suíte).
   - A carta virada conta como uma manilha.
 
-> **Nota importante:** Não há _mão de ferro_, nem mao de 11 ou de 10 (esses conceitos existem apenas em algumas variantes regionais ou são simplificações incorretas) e não existe _empate_ na mão inteira — a última rodada da mão decide sempre.
+> **Nota importante:** Não há _mão de ferro_, nem mão de 11 ou de 10 (esses conceitos existem apenas em algumas variantes regionais ou são simplificações incorretas) e não existe _empate_ na mão inteira — a última rodada da mão decide sempre.
 
 ---
 
@@ -55,9 +54,9 @@ A partida termina quando um jogador atinge o primeiro limiar de pontos configura
 
 ## 5. Manilha Rotativa (regra central de Paulista)
 
-> **Regra:** Após cada mão finalizada, a próxima carta virada é selecionada para definir as novas manilhas da próxima mão — isso é chamado "manilha rotativa" no contexto desta partida online. O vira determina o novo escalar das manilhas na próxima mão. Isso mantém a dinâmica tática e torna imprevisível a força da mão do outro jogador.
+> **Regra:** Após cada mão finalizada, a próxima carta virada é selecionada para definir as novas manilhas da próxima mão — isso é chamado "manilha rotativa" no contexto desta partida online. O vira determina o novo escalão das manilhas na próxima mão. Isso mantém a dinâmica tática e torna imprevisível a força da mão do outro jogador.
 
-> **Nota sobre fontes:** Termos como "_mão de onze_" ou mao de ferro_ não aparecem nas regras oficiais de Paulista; são conceitos de outras variantes (como Mineiro) mas devem ser omitidos em v0.1 para evitar complexidade desnecessária.
+> **Nota sobre fontes:** Termos como "_mão de onze_" ou mão de ferro não aparecem nas regras oficiais de Paulista; são conceitos de outras variantes (como Mineiro) mas devem ser omitidos em v0.1 para evitar complexidade desnecessária.
 
 ---
 
