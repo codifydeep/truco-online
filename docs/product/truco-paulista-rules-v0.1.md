@@ -26,12 +26,11 @@ Uma partida de Truco Paulista consiste em disputar pontos por mãos, onde cada m
 
 ## 3. Manilhas — Regra Confirmada de Paulista
 
-> **Regra:** Em Truco Paulista, a manilha é definida por uma carta "virada" (o _vira_) antes de cada nova mão. A carta do vira NÃO é manilha; ela define exatamente as quatro cartas do valor imediatamente seguinte na hierarquia como manilhas da próxima mão. A força relativa das manilhas segue a hierarquia de suítes: `Paus > Copas > Espadas > Ouros` (Clubs > Hearts > Spades > Diamonds). **Não existe "manilha velha" (fixa) nesta variante.**
-
+> **Regra:** Em Truco Paulista, a manilha é definida por uma carta "virada" (o _vira_) antes de cada nova mão. A carta do vira NÃO é manilha; ela define exatamente as quatro cartas do valor imediatamente seguinte na hierarquia como manilhas da próxima mão. A força relativa das manilhas segue a hierarquia de suítes: **Paus > Copas > Espadas > Ouros** (Clubs > Hearts > Spades > Diamonds). **Não existe "manilha velha" (fixa) nesta variante.**
 - Quando o vira é determinado, as 4 cartas imediatamente superiores na hierarquia viram manilhas.
-- O próprio vira NÃO pontua como manilha — apenas as cartas seguintes à sua posição no escalão comum.
+- O próprio vira NÃO pontua como manilha em nenhum escalão — apenas as cartas seguintes à sua posição no escalão comum.
 
-> **Mão de Onze e Mão de Ferro (adaptação v0.1):** Para esta adaptação 1x1, aos 11 o próprio jogador decide jogar por 3 ou correr cedendo 1; em 11x11 ambos jogam sem ver as próprias cartas e não podem pedir aumento. Essas duas adaptações são decisões explícitas da v0.1 derivada das regras em duplas.
+> **Mão de Onze e Mão de Ferro (adaptação v0.1):** Para esta adaptação 1x1, aos 11 o próprio jogador decide jogar por 3 ou correr cedendo 1; em 11x11 ambos jogam sem ver as próprias cartas e não podem pedir aumento. Essas duas adaptações São decisões explícitas da v0.1 derivada das regras em duplas.
 
 > **Empate na mão:** empate na primeira faz o vencedor da segunda ganhar a mão, empate na segunda ou terceira favorece quem venceu a primeira, primeira e segunda empatadas levam a decisão para a terceira, três empates não pontuam; a partida termina em 12.
 
@@ -39,17 +38,17 @@ Uma partida de Truco Paulista consiste em disputar pontos por mãos, onde cada m
 
 ## 4. Pontuação — Escada de Aposta
 
-Cada rodada tem um valor de aposta, escalonado conforme o pedido de truco feito durante a partida:
+Cada mão tem um valor de aposta, escalonado conforme os pedidos de aumento durante a partida. A sequência é: Base (1) → Seis (3) → Nove (6) → Doze (9) → Truco (12). O valor aumenta em cada pedido de truco aceito.
 
 | Estado | Pontos por mão |
 |--------|-----------------|
-| Base   | 1 ponto         |
-| Seis   | 3 pontos        |
-| Nove   | 6 pontos        |
-| Doze   | 9 pontos        |
-| Truco (reiterado) | 12 pontos |
+| Base         | 1 ponto            |
+| Seis   (pedido)   | 3 pontos           |
+| Nove   (pedido)   | 6 pontos           |
+| Doze   (pedido)   | 9 pontos           |
+| Truco  (pedido final) | 12 pontos       |
 
-A partida termina quando um jogador atinge o primeiro limiar de pontos configurado no jogo (padrão v0.1: _primeiro a X_ para empate ou _primeiro a Y_ para vitória).
+**Nota sobre empates:** empate na primeira mão faz o vencedor da segunda ganhar a parte, empate na segunda ou terceira favorece quem venceu a primeira; primeiro e segundo empatados levam à decisão para a terceira, três empates não pontuam.
 
 ---
 
@@ -57,7 +56,7 @@ A partida termina quando um jogador atinge o primeiro limiar de pontos configura
 
 > **Regra:** Após cada mão finalizada, a próxima carta virada é selecionada para definir as novas manilhas da próxima mão — isso é chamado "manilha rotativa" no contexto desta partida online. O vira determina o novo escalão das manilhas na próxima mão. Isso mantém a dinâmica tática e torna imprevisível a força da mão do outro jogador.
 
-> **Nota sobre fontes:** Termos como "_mão de onze_" ou mão de ferro não aparecem nas regras oficiais de Paulista; são conceitos de outras variantes (como Mineiro) mas devem ser omitidos em v0.1 para evitar complexidade desnecessária.
+> **Nota sobre fontes:** Termos como "mão de onze" ou mão de ferro não aparecem nas regras oficiais de Paulista; São conceitos de outras variantes (como Mineiro) mas foram incluídos na v0.1 como adaptação explícita para partidas 1x1.
 
 ---
 

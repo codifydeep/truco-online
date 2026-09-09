@@ -8,7 +8,7 @@
 
 ## Introdução
 
-Este backlog descompõe o Product Brief aprovado em epics e histórias de usuário, alinhadas aos critérios de aceitação funcionais do Truco Paulista v0.1. As histórias abaixo devem entregar uma experiência jogável para duas pessoas num navegador local, respeitando as regras da variante Paulista (manilha rotativa, pontuação 1/3/6/9/12 por mão) e sem inventar elementos fora do escopo (como dealer, mão de ferro ou pontuações alternativas).
+Este backlog descompõe o Product Brief aprovado em epics e histórias de usuário, alinhadas aos critérios de aceitação funcionais do Truco Paulista v0.1. As histórias abaixo devem entregar uma experiência jogável para duas pessoas num navegador local, respeitando as regras da variante Paulista (manilha rotativa: vira define 4 cartas imediatamente superiores; pontuação escalonada: Base→Seis→Nove→Doze→Truco) e sem inventar elementos fora do escopo.
 
 Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específicas; o Designer deve transformar os critérios observáveis em fluxo visual e transição 2D→3D conforme o Brief.
 
@@ -29,9 +29,10 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 - Ao entrar em uma sala existente, o jogador insere seu apelido na lista de jogadores daquela sala (não há login). Se a sala tiver menos de dois jogadores, ele aparece como um dos participantes esperantes; se já tiver dois jogadores, recebe feedback de que a sala está cheia.
 - A primeira vez que entra numa sala com um jogador ativo, o sistema mostra ao entrar o segundo jogador uma mensagem "Sala agora cheia" (ou similar) — sem necessidade de clique extra.
 
-**Fora do escopo:**
+Fora do escopo v0.1:
 - Persistência persistente entre sessões independentes (o Tech Lead definirá a estratégia); v0.1 só exige que um estado esteja sincronizado entre as duas sessões ativas da mesma partida.
 - Sincronização multi-jogador além de dois participantes por sala.
+- Manilhas fixas (Mineiro) ou mão de ferro como regra oficial de Paulista — essas são adaptações opcionais v0.1 apenas para partidas 1x1, não para o jogo padrão.
 
 **Observações:** Conforme o Brief, "criação e listagem de salas" devem ser observáveis sem implementação técnica prescrita. O Tech Lead decidirá cache vs banco local; o critério é que a lista apareça no navegador do criador sempre atualizada para sua sessão.
 
@@ -106,15 +107,15 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 - A mão começa com um valor de aposta inicial (padrão v0.1: 1); pedidos de truco seguem a escalada definida (1 → 3 → 6 → 9 → 12).
 - Quando alguém pede truco, o estado da mano atualiza para o próximo valor e a aposta seguinte se torna o novo valor de base.
 
-### História E4-03 — Rodada decide a mão; última rodada resolve
+### História E4-03 — Empate favorece quem venceu a primeira
 
-**Como jogador,** quero que cada rodada (vaza) tenha um vencedor, que ganha os pontos daquela rodada; quem perder a rodada não leva pontos da rodada nem da mão inteira.
+**Como jogador,** quero que empates na sequência de mãos decidam a favor de quem já ganhou uma anteriormente, não havendo desempate em rodadas finais.
 
 **Critérios de aceite:**
-- Cada mão tem várias rodadas (tricks); quem vencer mais rodadas leva as manaobras e assim a mão. A última rodada é decisiva — não há empate na mão toda.
-- Quem ganha uma rodada toma os pontos daquela rodada; o vencedor da mano é quem soma mais pontos nas três rodadas (ou menos se só houver uma ou duas) — mas apenas no limite de 12 total para ganhar a partida.
-
-**Observação:** Não existem "empates" na mão inteira; as rodadas são ganhas por quem tem manilha e força, com a última rodada decidindo sempre. Empate de todas as mãos seria um empate da partida, mas o Brief define que "A partida termina ao atingir o limiar de pontos configurado".
+- Empate na primeira mão faz o vencedor da segunda ganhar a parte total da mão.
+- Em caso de empate na segunda ou terceira, favorece quem venceu a primeira.
+- Três empates consecutivos invalidam a mão inteira (sem pontos).
+- Não existe "empate na mão toda" — a última rodada sempre decide ou três empates anulam.
 
 ---
 
@@ -184,11 +185,12 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 
 ### História E7-02 — Testes E2E de jornada completa
 
-**Como QA**, quero um fluxo de teste end-to-end: duas sessões independentes abrem, criam ou entram numa sala, transiciona para 3D, joga uma mão inteira com truco/corre e chega ao fim da partida.
+**Como QA**, quero um fluxo de teste end-to-end: duas sessões independentes abrem, criam ou entram numa sala, transiciona para 3D, joga uma mão inteira com regras de manilha rotativa (truco/corre) e chega ao fim da partida. Inclui verificação de regras de vira e empate favorável.
 
 **Critérios de aceite:**
 - O teste abre dois navegadores simulados, cria um jogo no primeiro e entra no segundo num segundo navegador. A listagem de salas aparece no primeiro como "ocupado" na segunda entrada.
-- O teste executa a mão: vira define manilhas, cada rodada revela cartas e resolve pontos, mostrando quem ganha; o placar atualiza em ambas as sessões antes do encerramento pela condição de vitória (12 pontos).
+- O teste executa a mão: vira define manilhas da mão (4 cartas imediatamente superiores), cada rodada revela cartas e resolve pontos conforme escalada ativa, mostrando quem ganha; o placar atualiza em ambas as sessões antes do encerramento pela condição de vitória (12 pontos).
+- Teste inclui verificação de regras de empate: primeira mão empatada favorece vencedora da segunda, ou invalida após três empates.
 
 ### História E7-03 — Regressão para comportamentos de UI esperados
 
@@ -203,9 +205,9 @@ Depois deste backlog v0.1, o Tech Lead deve decompor em tasks técnicas específ
 ## Notas sobre critérios vs implementação
 
 1. **Critérios devem ser observáveis:** Não escrevemos "implemente com Three.js" ou "use Socket.io"; definimos o comportamento que o sistema deve mostrar (lista atualizada, transição automática, ambiente responsivo).
-2. **Registros do vira e da manilha:** O Tech Lead define como cada um desses mecanismos funcionam por baixo; Product apenas observa se a manilha muda conforme o vira de Paulista.
+2. **Registros do vira e da manilha:** O Tech Lead define como cada um desses mecanismos funcionam por baixo; Product apenas observa se a manilha muda conforme o vira de Paulista (4 cartas imediatamente superiores).
 3. **Privacidade das cartas:** É um critério funcional explícito do Brief; qualquer vazamento visual é falha de critério, independentemente da causa técnica.
-4. **Empate ou mão de ferro:** Não há empates na mão inteira nem regras como "mão de 11"; essas variações só existem em outras variantes (Mineiro) e não pertencem ao escopo v0.1.
+4. **Empate ou mão de ferro:** Empates são resolvidos conforme regras na História E4-03 (favorece quem venceu a primeira, ou invalidam após três empates). Mão de onze/ferro aparecem apenas como adaptação opcional v0.1 para partidas 1x1 no texto das regras, não em Paulista padrão.
 
 ---
 
