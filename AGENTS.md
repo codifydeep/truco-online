@@ -21,6 +21,9 @@ Estas regras valem para todo o repositório.
 8. O revisor conclui o mesmo card quando aprova ou usa `request-changes` com motivos concretos, o que o devolve ao implementador original. Não crie um card de revisão separado para novos trabalhos.
 9. Como a PoC usa uma única conta GitHub, registre o perfil Hermes e o veredito em comentário no PR e no evento de revisão do Kanban; não tente adicionar usernames do Telegram como reviewers do GitHub.
 10. Um worktree pode ter sido criado antes de seus cards-pai serem integrados. Antes da primeira edição, com a árvore limpa, faça `git fetch origin`, confirme a release ativa e atualize a branch do card sobre `origin/release/vX.Y`; registre a base usada. Nunca implemente sobre uma cópia anterior às dependências concluídas.
+11. `request-review` sempre informa `reviewer` explicitamente e esse perfil deve ser diferente do implementador. Omitir reviewer é falha de protocolo e nunca autoriza conclusão.
+12. Em uma execução despachada a partir de `review`, o revisor jamais chama `request-review` novamente: aprova com `complete` ou devolve com `request-changes`. Antes de aprovar, confirme no evento mais recente que `implementer != reviewer`.
+13. Todo card executável recebe `max_runtime`: 60 minutos para documento/revisão e 120 minutos para implementação/testes. Timeout provoca recuperação, não conclusão da release.
 
 ## TDD e regressão
 
@@ -73,3 +76,10 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 3. Comentário no Kanban ou mensagem no Telegram não substitui arquivo, commit, PR ou saída de teste.
 4. Se uma ferramenta indispensável não estiver disponível, bloqueie o card com diagnóstico objetivo. Nunca simule a entrega em texto.
 5. Revisores devem inspecionar o PR, o commit e os arquivos reais. Se qualquer evidência estiver ausente, solicite mudanças ou crie uma recuperação; não aceite a narrativa do implementador como prova.
+
+## Observabilidade
+
+1. O grupo Telegram é automaticamente inscrito nos eventos de todos os cards não arquivados.
+2. Heartbeat ausente, execução longa, falhas repetidas, processo duplicado e ausência prolongada de mudança Git geram alerta do Hermes Watchdog.
+3. O watchdog é somente observador: ele não aprova, conclui, reatribui ou mata workers.
+4. Um resumo do board é publicado a cada 30 minutos enquanto o serviço estiver ativo.
