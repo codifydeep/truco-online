@@ -12,8 +12,8 @@ agent:
   disabled_toolsets: [delegation, computer_use, image_gen, video_gen]
 toolsets: [kanban]
 platform_toolsets:
-  cli: [web, file, skills, todo, memory, clarify]
-  telegram: [web, file, skills, todo, memory, clarify]
+  cli: [web, terminal, file, skills, todo, memory, clarify]
+  telegram: [web, terminal, file, skills, todo, memory, clarify]
 terminal:
   backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
@@ -24,6 +24,7 @@ skills:
     - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
     - /opt/data/skills/research/grounded-citations
     - /opt/data/skills/research/grounded-web-research-notes
+    - /opt/data/skills/software-development/github
 auxiliary:
   title_generation: {enabled: false}
   goal_judge: {provider: main, model: "qwen3.5:9b"}

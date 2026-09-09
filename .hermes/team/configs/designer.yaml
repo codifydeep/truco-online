@@ -6,8 +6,8 @@ agent:
   reasoning_effort: medium
   disabled_toolsets: [delegation, computer_use, image_gen, video_gen]
 platform_toolsets:
-  cli: [file, skills, todo, memory, clarify]
-  telegram: [file, skills, todo, memory, clarify]
+  cli: [terminal, file, skills, todo, memory, clarify]
+  telegram: [terminal, file, skills, todo, memory, clarify]
 terminal:
   backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
@@ -18,6 +18,7 @@ skills:
     - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
     - /opt/data/skills/creative/design-md
     - /opt/data/skills/creative/popular-web-designs
+    - /opt/data/skills/software-development/github
 auxiliary:
   title_generation: {enabled: false}
   goal_judge: {provider: main, model: "qwen3.5:9b"}
