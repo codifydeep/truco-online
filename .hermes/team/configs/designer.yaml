@@ -22,7 +22,16 @@ skills:
 auxiliary:
   title_generation: {enabled: false}
   goal_judge: {provider: main, model: "qwen3.5:9b"}
-kanban: {review_dispatch: false, auto_decompose: false}
+kanban:
+  review_dispatch: true
+  auto_decompose: false
+  dispatch_interval_seconds: 15
+  orchestrator_profile: techlead
+  default_assignee: techlead
+  auto_subscribe_on_create: true
+  max_in_progress: 2
+  max_in_progress_per_profile: 1
+  failure_limit: 2
 group_sessions_per_user: false
 telegram: &telegram
   allowed_chats: []
