@@ -293,8 +293,7 @@ Paus (Clubs)    = Zap / Gato     > Copas (Hearts)   > Espadas (Spades)  > Ouros 
 
 ---
 
-**Status**: Documento completo para implementação v0.1.  
-**Autor**: Perfil produto (Gerente de Produto).  
-**Data**: 9/09/2026  
+**Status**: Documento completo para implementação v0.1.
+**Autor**: Perfil produto (Gerente de Produto).
+**Data**: 9/09/2026
 **Revisão técnica pendente**: @techlead_truco_poc_bot — verificar integração das hierarquias e restrições no backend e frontend.
-

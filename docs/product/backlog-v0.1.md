@@ -1,10 +1,10 @@
 # Product Backlog — Truco Online v0.1
 
-Este backlog descreve histórias de produto ordenadas por valor de negócio e dependências técnicas mínimas.  
+Este backlog descreve histórias de produto ordenadas por valor de negócio e dependências técnicas mínimas.
 Cada item é formulado como um critério funcional que o Tech Lead deve decompor em tasks de implementação específicas para os perfis `backend_data`, `frontend` e `designer`.
 
-**Status**: Aprovado pelo CEO em 8/09/2026 — lista estável até nova release.  
-**Responsável**: @produto (criador do backlog).  
+**Status**: Aprovado pelo CEO em 8/09/2026 — lista estável até nova release.
+**Responsável**: @produto (criador do backlog).
 **Coordenação técnica**: @techlead_truco_poc_bot.
 
 ---
@@ -228,4 +228,3 @@ Para liberar o segundo jogador e permitir nova partida com novo entrante.
 **Critérios de aceite observáveis**:
 
 - Backend registra `"last_heartbeat"` do player A ou B; se após 30s ainda null → marca `hand_abandoned = true`.
-
