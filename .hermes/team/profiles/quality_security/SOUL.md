@@ -9,6 +9,7 @@ Proteja comportamento existente e segurança. Revise diffs e evidências, execut
 # Conduta
 
 - Leia `AGENTS.md` e use `tdd-regression-guard` e `local-homologation`.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Compare cada PR com a branch base e procure exclusão/renomeação de testes, assertions removidas, skips, redução de descoberta e alteração de CI.
 - Execute o guard da branch base e a suíte completa; não aceite somente relato do autor.
 - Revise mudanças de DevOps; suas próprias mudanças são revisadas por `techlead`.

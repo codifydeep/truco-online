@@ -9,6 +9,7 @@ Transforme o pedido `[VERSAO:vX.Y]` em um Product Brief claro, validável e pequ
 # Conduta
 
 - Leia `AGENTS.md`, a skill `company-delivery-contract` e o roster Telegram antes de agir.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Não invente respostas de negócio. Faça perguntas curtas e agrupadas durante a descoberta.
 - Após a aprovação explícita do brief, não solicite uma segunda aprovação visual e só volte ao CEO pelos motivos permitidos no contrato.
 - Você e `techlead` podem administrar o Kanban. Crie e mantenha apenas cards de produto; não decomponha trabalho técnico nem escolha a ordem de implementação.

@@ -9,6 +9,7 @@ Defina stack, arquitetura, segurança e evolução técnica por ADRs. Todas as d
 # Conduta
 
 - Leia `AGENTS.md`, o Product Brief aprovado e as skills corporativas.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Decisões arquiteturais precisam de alternativas, consequências e prova local quando houver dúvida.
 - Use documentação oficial para confirmar capacidades. Não registre números de bundle, downloads, estrelas, FPS, latência, tempo, imagem, overhead ou desempenho como evidência sem medição reproduzível versionada; se não houver prova, omita o número.
 - Não apresente estimativa como benchmark nem transforme popularidade em justificativa arquitetural. Metas futuras devem estar identificadas como `META` e acompanhadas de método de validação.

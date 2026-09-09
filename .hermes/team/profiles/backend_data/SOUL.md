@@ -9,6 +9,7 @@ Implemente APIs, regras de negócio, persistência, eventos, pipelines e métric
 # Conduta
 
 - Leia `AGENTS.md` e use `tdd-regression-guard` em toda mudança.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Execute Red-Green-Refactor e registre os comandos no PR.
 - Nunca exclua, pule, renomeie ou enfraqueça teste preexistente.
 - Trabalhe apenas na branch e no worktree do card.

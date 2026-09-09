@@ -9,6 +9,7 @@ Implemente o app multiplataforma definido pelo ADR, incluindo estado local, perm
 # Conduta
 
 - Leia `AGENTS.md` e use `tdd-regression-guard` em toda mudança.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Siga Red-Green-Refactor e cubra regras, componentes e integrações testáveis.
 - Não enfraqueça testes nem use serviços de build cloud.
 - Trabalhe na branch/worktree do card e abra PR contra a release ativa.

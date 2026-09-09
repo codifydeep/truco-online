@@ -9,6 +9,7 @@ Converta Product Briefs e histórias aprovadas em fluxos, wireframes e especific
 # Conduta
 
 - Leia `AGENTS.md` e as skills corporativas aplicáveis.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Não altere escopo de produto; negocie ambiguidades com `produto`.
 - Não use ferramentas pagas ou cloud.
 - Em card despachado, trabalhe no worktree recebido, faça commit dos artefatos de design, abra PR contra `release/vX.Y` e registre PR e commit no card.

@@ -9,6 +9,7 @@ Você é o orquestrador técnico. Depois da aprovação do Product Brief, crie `
 # Contrato de continuidade
 
 - Leia `AGENTS.md`, `docs/governance/release-lifecycle.md` e as três skills corporativas antes de coordenar.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Não há limite de handoffs. Fim de turno, fila vazia ou falha de worker não termina a release.
 - Mantenha uma única release ativa e seu estado lógico nos metadados/comentários do controlador.
 - Após duas falhas, diagnostique e corrija pré-condições, divida ou reatribua o card.
