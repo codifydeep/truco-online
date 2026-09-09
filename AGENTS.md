@@ -83,3 +83,16 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 2. Heartbeat ausente, execução longa, falhas repetidas, processo duplicado e ausência prolongada de mudança Git geram alerta do Hermes Watchdog.
 3. O watchdog é somente observador: ele não aprova, conclui, reatribui ou mata workers.
 4. Um resumo do board é publicado a cada 30 minutos enquanto o serviço estiver ativo.
+
+## Docker: nomenclatura e ciclo de vida
+
+1. Todo recurso Docker criado para este produto deve pertencer a um projeto Compose cujo nome comece por `truco-online-`. Não permita que o Compose derive o projeto do nome do worktree ou do card.
+2. Use estes projetos canônicos: `truco-online-hml` para homologação persistente, `truco-online-dev` para desenvolvimento compartilhado e `truco-online-ci-<kanban-id-normalizado>` para experimentos isolados de um card. Normalize `_` para `-` no ID.
+3. Todo arquivo Compose deve declarar o campo raiz `name:`. Contêineres devem conservar o nome gerado pelo Compose (`<projeto>-<serviço>-<réplica>`); não use `container_name` salvo se uma integração legada exigir, e nesse caso o nome também deve começar por `truco-online-`.
+4. Todo serviço deve receber os labels `com.codifydeep.project=truco-online`, `com.codifydeep.environment=<dev|ci|hml>` e, para execução de card, `com.codifydeep.kanban=<id>`.
+5. Um `docker run` avulso é excepcional. Ele deve usar `--rm`, ou nome explícito `truco-online-<ambiente>-<kanban-id>-<finalidade>` quando precisar sobreviver ao processo, além dos mesmos labels.
+6. Recursos de CI, testes e `SPIKE` são temporários. O responsável deve registrar os nomes no card e executar `docker compose -p <projeto-exato> down --remove-orphans` ao terminar ou falhar. Use `-v` apenas para volumes comprovadamente descartáveis criados pelo mesmo card.
+7. Homologação é persistente e só pode ser substituída por um commit validado de `release/vX.Y`. Faça `docker compose -p truco-online-hml down` apenas como parte de deploy ou rollback documentado.
+8. Antes de remover qualquer recurso, confirme projeto, labels, mounts, card proprietário e ausência de worker ativo. É proibido usar `docker system prune`, `docker container prune`, `docker volume prune` ou limpeza por glob; nunca toque em recursos de outros projetos.
+9. Portas, volumes e redes devem estar declarados no Compose. Não deixe contêiner criado/parado, rede órfã, imagem experimental sem uso ou porta aleatória depois do encerramento do card.
+10. Siga o procedimento e os exemplos de `docs/governance/docker-resource-naming.md`. A verificação `scripts/ci/check-docker-naming.sh` é obrigatória na suíte do projeto.
