@@ -81,7 +81,7 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 
 1. O grupo Telegram é automaticamente inscrito nos eventos de todos os cards não arquivados.
 2. Heartbeat ausente, execução longa, falhas repetidas, processo duplicado e ausência prolongada de mudança Git geram alerta do Hermes Watchdog.
-3. O watchdog é somente observador: ele não aprova, conclui, reatribui ou mata workers.
+3. O watchdog não aprova, conclui nem reatribui cards. Ele pode encerrar somente processos órfãos cujo PID não corresponda mais ao worker canônico registrado no Kanban, após o período de tolerância documentado.
 4. Um resumo do board é publicado a cada 30 minutos enquanto o serviço estiver ativo.
 
 ## Docker: nomenclatura e ciclo de vida
