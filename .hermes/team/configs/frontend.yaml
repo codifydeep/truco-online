@@ -10,7 +10,6 @@ platform_toolsets:
   telegram: [terminal, file, skills, todo, memory, clarify]
 terminal:
   backend: local
-  cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
   timeout: 300
   home_mode: profile
 skills:
