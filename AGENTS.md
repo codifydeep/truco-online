@@ -41,3 +41,21 @@ Estas regras valem para todo o repositório.
 2. Inclua no handoff o ID do card, artefato ou evidência produzida, dependências e a ação objetiva esperada.
 3. Mencione apenas o próximo responsável por padrão; mencione vários bots somente quando os cards puderem avançar realmente em paralelo.
 4. Não envie confirmação ou promessa sem executar trabalho, registrar decisão, atualizar o Kanban ou formular uma pergunta objetiva.
+5. Escrever o nome de um papel, como “CTO”, sem o username Telegram não aciona esse perfil; use sempre a menção registrada no roster.
+6. Depois da aprovação do Product Brief, não peça ao CEO para escolher agente, ordem de implementação, stack ou paralelização. Essas decisões pertencem ao Tech Lead e ao CTO.
+
+## Identificadores canônicos dos perfis
+
+Use somente estes identificadores em `assignee`, `reassign`, automações e metadados do Kanban:
+
+- `produto`
+- `designer`
+- `cto`
+- `techlead`
+- `backend_data`
+- `frontend`
+- `mobile`
+- `devops`
+- `quality_security`
+
+Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`, `developer` ou `qa-tester`. Antes de criar ou reatribuir cards, valide o identificador no roster e em `hermes kanban assignees`. Um responsável que não exista em disco torna o card não executável.

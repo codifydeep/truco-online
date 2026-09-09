@@ -21,6 +21,12 @@ Use `.hermes/templates/release-controller.md` when creating a controller and `.h
 
 Provide the next profile with the card ID, decision or deliverable required, acceptance criterion, dependencies, and relevant artifact paths. Avoid acknowledgement-only messages. Mention one next bot unless work is deliberately parallel.
 
+Telegram routing is literal. A role name in prose does not activate a bot. Read `.hermes/team/telegram-roster.yaml` immediately before the handoff and include the exact `@username` of every intended recipient. Never ask the CEO what another profile wants; address that profile directly.
+
+Use only the canonical Kanban assignees `produto`, `designer`, `cto`, `techlead`, `backend_data`, `frontend`, `mobile`, `devops`, and `quality_security`. Validate the assignee with `hermes kanban assignees` before creating or reassigning work. Do not use translated role labels or improvised aliases.
+
+After the CEO approves the Product Brief, `produto` must persist it in the repository, complete the discovery card, and hand off explicitly to `@techlead_truco_poc_bot`. From then on, the Tech Lead owns ordering, dependencies, parallelism, and specialist assignment. Product must not implement UI, backend, infrastructure, tests, or production code and must not ask the CEO to select an implementer.
+
 When an impasse repeats without new evidence, create a `SPIKE` card. State hypotheses, a local experiment, expected evidence, and a decision rule. Resume delivery from the result; do not close the release.
 
 After two failed task attempts, diagnose and either correct prerequisites, split the card, or reassign it. External human blockers use `BLOQUEADA_AGUARDANDO_CEO` and resume from the preserved graph.
