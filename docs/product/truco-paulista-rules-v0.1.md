@@ -26,13 +26,14 @@ Uma partida de Truco Paulista consiste em disputar pontos por mãos, onde cada m
 
 ## 3. Manilhas — Regra Confirmada de Paulista
 
-> **Regra:** Em Truco Paulista, a manilha é definida por uma carta "virada" (o _vira_) antes de cada nova mão. As manilhas são as quatro cartas seguintes à sequência do vira. A força relativa das manilhas segue a hierarquia de suítes: `Paus > Copas > Espadas > Ouros` (Clubs > Hearts > Spades > Diamonds). **Não existe "manilha velha" (fixa) nesta variante.**
+> **Regra:** Em Truco Paulista, a manilha é definida por uma carta "virada" (o _vira_) antes de cada nova mão. A carta do vira NÃO é manilha; ela define exatamente as quatro cartas do valor imediatamente seguinte na hierarquia como manilhas da próxima mão. A força relativa das manilhas segue a hierarquia de suítes: `Paus > Copas > Espadas > Ouros` (Clubs > Hearts > Spades > Diamonds). **Não existe "manilha velha" (fixa) nesta variante.**
 
-- Quando a carta virada (_vira_) é descoberta, ela define o próximo escalão de manilhas. Por exemplo:
-  - Se vira = 5 → manilhas são todas as cartas ≥ 5 na hierarquia (i.e., 6, Q, J, K, A, 2, 3 — mais 4 dependendo do suíte).
-  - A carta virada conta como uma manilha.
+- Quando o vira é determinado, as 4 cartas imediatamente superiores na hierarquia viram manilhas.
+- O próprio vira NÃO pontua como manilha — apenas as cartas seguintes à sua posição no escalão comum.
 
-> **Nota importante:** Não há _mão de ferro_, nem mão de 11 ou de 10 (esses conceitos existem apenas em algumas variantes regionais ou são simplificações incorretas) e não existe _empate_ na mão inteira — a última rodada da mão decide sempre.
+> **Mão de Onze e Mão de Ferro (adaptação v0.1):** Para esta adaptação 1x1, aos 11 o próprio jogador decide jogar por 3 ou correr cedendo 1; em 11x11 ambos jogam sem ver as próprias cartas e não podem pedir aumento. Essas duas adaptações são decisões explícitas da v0.1 derivada das regras em duplas.
+
+> **Empate na mão:** empate na primeira faz o vencedor da segunda ganhar a mão, empate na segunda ou terceira favorece quem venceu a primeira, primeira e segunda empatadas levam a decisão para a terceira, três empates não pontuam; a partida termina em 12.
 
 ---
 
