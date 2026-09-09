@@ -51,7 +51,7 @@ Vantagens:
 - Sem overhead adicional — components render outside React
 - Abstração `useFrame` para acesso ao loop de renderização nativo do Three
 
-**Evidência**: 
+**Evidência**:
 - docs.pmnd.rs/react-three-fiber: "No overhead. Components render outside of React. It outperforms Threejs in scale due to React's scheduling abilities."
 - Sem limitações — "Everything that works in threejs will work here without exception."
 - Keeps up with updates — features no Three.js ficam disponíveis instantaneamente via JSX
@@ -79,7 +79,7 @@ Pixelforge:
 
 Tensão técnica: Para 2 jogadores simultâneos sob condições normais, Three.js/WebGPU + React oferece melhor trade-off entre desenvolvimento e experiência do usuário. CPU puro é útil para fallbacks ou restrições de hardware extremo (máquinas sem GPU dedicada), conforme antecipado no Product Brief — "degradação visual razoável".
 
-EASEL.js aparece como opção híbrida interessante: API Three.js com renderização CPU apenas, garantindo determinismo e zero overhead de WebGL. Contudo, para PoC focada na experiência 3D completa da mesa e cartas, Three.js + R3F permanece a escolha primária.
+**METAFER**: EASEL.js aparece como opção híbrida interessante: API Three.js com renderização CPU apenas, garantindo determinismo e zero overhead de WebGL. Contudo, para PoC focada na experiência 3D completa da mesa e cartas, Three.js + R3F permanece a escolha primária.
 
 ---
 
@@ -97,7 +97,7 @@ Desvantagens:
 - Gerenciamento manual de reconexão, buffering, estados de sessão
 - Proxies corporativos frequentemente bloqueiam WS puro
 
-**Evidência**: 
+**Evidência**:
 - pkglog.com/blog/websocket-complete-guide — "When the client can't use WebSockets (some corporate proxies), it falls back to long-polling."
 - Dev.to/abanoubkerols/socketio — Adds reconnection, buffering without manual code
 
@@ -116,11 +116,11 @@ Desvantagens:
 - Overhead marginal adicional no payload (protocolo Socket.IO sobre WS)
 - Requer library server (`socket.io`) + client (`socket.io-client`) sincronizados na versão
 
-**Evidência**: 
+**Evidência**:
 - Stacknotice.com/socketio-complete-guide — "It wraps WebSockets with automatic fallback, reconnection logic, rooms, namespaces, and event broadcasting."
 - Dev.to/stacknotice — "Built-in scaling via adapters (Redis, PostgreSQL, etc.)" (não necessário para PoC local, mas documentado)
 
-**Decisão**: Socket.IO selected over raw WS pela robustez out-of-the-box e compatibilidade com proxies corporativos. Para 2 jogadores em rede local, overhead é imperceptível em latência (<1ms adicional por frame). O fallback automático garante que a app não quebre se o firewall bloquear WS direto.
+**Decisão**: Socket.IO selected over raw WS pela robustez out-of-the-box e compatibilidade com proxies corporativos. Para 2 jogadores em rede local, overhead é imperceptível em latência. O fallback automático garante que a app não quebre se o firewall bloquear WS direto.
 
 ---
 
@@ -129,7 +129,7 @@ Desvantagens:
 #### AsyncStorage (browser)
 Vantagens: API simples no frontend.
 
-Desvantagens: 
+Desvantagens:
 - Sincrónico e serializado, mais lento para jogos com state complexo
 - Sem ACID robusto, transactions limitadas
 - Browser-specific implementation variations
@@ -150,7 +150,7 @@ Vantagens:
 
 Desvantagens — native binding, não funciona em Worker Threads sem config extra.
 
-**Evidência**: 
+**Evidência**:
 - NPM docs: "Much faster than node-sqlite3 in most cases"
 - "Easy-to-use synchronous API (better concurrency... yes you read that correctly)"
 - "upward of 2000 queries per second with 5-way-joins in a 60 GB database"
@@ -162,7 +162,7 @@ Desvantagens — native binding, não funciona em Worker Threads sem config extr
 ### 2.4 Node.js: built-in SQLite vs Modules externos
 
 #### node:sqlite (native API do Node 22+)
-Vantagens: 
+Vantagens:
 - Numa build com `--experimental-sqlite` ou v22+, SQLite via `node:sqlite.DatabaseSync()` sem módulos npm.
 
 Desvantagens:
@@ -204,7 +204,7 @@ Para 2 jogadores em LAN/Wi-Fi local, Socket.IO com broadcast direto funciona sem
 ### Logging Local (Pino ou console)
 Para desenvolvimento em Docker: Pino leve via `pino.transport({ targets: [ { target: 'pino-file', options: { destination: './logs/game.log' } }] })` para persistência persistente de logs de jogo.
 
-**Evidência**: 
+**Evidência**:
 - pinojs.com — "Fast, friendly logger"
 - Docs: configure transport targets including file output
 
