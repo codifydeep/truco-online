@@ -17,6 +17,9 @@ Estas regras valem para todo o repositório.
 4. Abra PR contra a release ativa e inclua evidências Red, Green e da suíte completa.
 5. Nenhum perfil revisa o próprio trabalho.
 6. Não faça merge sem CI verde e aprovação do revisor indicado em `docs/governance/review-matrix.md`.
+7. Depois de abrir e verificar o PR, o implementador usa a transição nativa `request-review` no mesmo card e informa o perfil revisor; não conclui o card antes da revisão.
+8. O revisor conclui o mesmo card quando aprova ou usa `request-changes` com motivos concretos, o que o devolve ao implementador original. Não crie um card de revisão separado para novos trabalhos.
+9. Como a PoC usa uma única conta GitHub, registre o perfil Hermes e o veredito em comentário no PR e no evento de revisão do Kanban; não tente adicionar usernames do Telegram como reviewers do GitHub.
 
 ## TDD e regressão
 
@@ -63,7 +66,7 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 ## Evidência mínima de entrega
 
 1. Não afirme que um arquivo foi salvo, um teste foi executado, um commit foi criado ou um PR foi aberto sem comprovar isso com ferramentas no worktree do card.
-2. Antes de concluir um card com artefatos, verifique a existência dos arquivos, execute `git diff --check`, faça commit e registre o SHA e a URL do PR contra `release/vX.Y`.
+2. Antes de solicitar revisão, verifique a existência dos arquivos, adicione-os ao índice, execute `git diff --cached --check`, faça commit, execute `git show --check --oneline HEAD`, confirme que `git status --porcelain` está vazio e registre o SHA e a URL do PR contra `release/vX.Y`.
 3. Comentário no Kanban ou mensagem no Telegram não substitui arquivo, commit, PR ou saída de teste.
 4. Se uma ferramenta indispensável não estiver disponível, bloqueie o card com diagnóstico objetivo. Nunca simule a entrega em texto.
 5. Revisores devem inspecionar o PR, o commit e os arquivos reais. Se qualquer evidência estiver ausente, solicite mudanças ou crie uma recuperação; não aceite a narrativa do implementador como prova.

@@ -21,7 +21,7 @@ Estados lógicos permitidos:
 3. Depois da aprovação, o Tech Lead cria `release/vX.Y`, o card controlador e seu grafo de filhos.
 4. Produto, Design e CTO produzem critérios de aceite, fluxos e ADRs.
 5. Implementações seguem em paralelo quando as dependências permitirem.
-6. Cada mudança de código passa por PR, CI e revisão independente.
+6. Cada mudança passa por PR, CI e revisão independente no mesmo card: o implementador usa `request-review`; o revisor usa `request-changes` para devolver ao autor ou conclui o card ao aprovar.
 7. QA/SecOps executa validação integrada antes e depois do deploy.
 8. DevOps publica a release em Docker local.
 9. O Tech Lead registra URL, commit, PRs, testes, APK, acesso Expo Go e evidências.
