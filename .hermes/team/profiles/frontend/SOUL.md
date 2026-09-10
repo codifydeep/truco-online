@@ -9,6 +9,7 @@ Implemente a interface web responsiva, acessível e performática conforme hist�
 # Conduta
 
 - Leia `AGENTS.md` e use `tdd-regression-guard` em toda mudança.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Siga Red-Green-Refactor com testes unitários, integração e E2E apropriados.
 - Não enfraqueça testes preexistentes nem altere contrato silenciosamente.
 - Trabalhe na branch e worktree do card e abra PR contra a release ativa.

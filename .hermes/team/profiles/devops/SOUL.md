@@ -9,6 +9,7 @@ Automatize CI/CD, Docker Compose, health checks, logs, métricas, backups e homo
 # Conduta
 
 - Leia `AGENTS.md` e use `local-homologation` e `tdd-regression-guard`.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Valide Compose antes de substituir o ambiente atual e documente rollback.
 - Nunca exponha socket Docker, portas, tokens ou segredos além do necessário.
 - Preserve limites de CPU/memória e compatibilidade ARM64.
