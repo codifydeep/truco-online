@@ -24,6 +24,8 @@ Estas regras valem para todo o repositório.
 11. `request-review` sempre informa `reviewer` explicitamente e esse perfil deve ser diferente do implementador. Omitir reviewer é falha de protocolo e nunca autoriza conclusão.
 12. Em uma execução despachada a partir de `review`, o revisor jamais chama `request-review` novamente: aprova com `complete` ou devolve com `request-changes`. Antes de aprovar, confirme no evento mais recente que `implementer != reviewer`.
 13. Todo card executável recebe `max_runtime`: 60 minutos para documento/revisão e 120 minutos para implementação/testes. Timeout provoca recuperação, não conclusão da release.
+14. Antes de solicitar revisão, o implementador deve fazer push e confirmar que o SHA local é exatamente o `headRefOid` do PR. Revisão de commit existente apenas localmente é inválida.
+15. Ao aprovar, o revisor integra o PR em `release/vX.Y`, atualiza `origin/release/vX.Y` e confirma com `git merge-base --is-ancestor <sha-revisado> origin/release/vX.Y` antes de concluir o card. Se não puder integrar, o card permanece em revisão. Portanto, `done` significa artefato revisado **e integrado**, não apenas aprovado.
 
 ## TDD e regressão
 
