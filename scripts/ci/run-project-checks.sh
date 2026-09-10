@@ -3,6 +3,8 @@ set -euo pipefail
 
 ran=0
 
+scripts/ci/check-docker-naming.sh
+
 if [[ -f package.json ]]; then
   ran=1
   if [[ -f pnpm-lock.yaml ]]; then
@@ -41,10 +43,9 @@ fi
 
 if [[ -f compose.homolog.yml ]]; then
   ran=1
-  docker compose -f compose.homolog.yml config --quiet
+  docker compose -p truco-online-hml -f compose.homolog.yml config --quiet
 fi
 
 if [[ "${ran}" -eq 0 ]]; then
   echo "Bootstrap sem stack: nenhum quality gate de aplicação aplicável ainda."
 fi
-

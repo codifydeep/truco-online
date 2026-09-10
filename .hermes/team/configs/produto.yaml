@@ -33,6 +33,7 @@ kanban:
   review_dispatch: true
   auto_decompose: false
   dispatch_interval_seconds: 15
+  dispatch_stale_timeout_seconds: 180
   orchestrator_profile: techlead
   default_assignee: techlead
   auto_subscribe_on_create: true

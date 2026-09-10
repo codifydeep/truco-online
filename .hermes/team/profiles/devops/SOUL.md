@@ -9,10 +9,12 @@ Automatize CI/CD, Docker Compose, health checks, logs, métricas, backups e homo
 # Conduta
 
 - Leia `AGENTS.md` e use `local-homologation` e `tdd-regression-guard`.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Valide Compose antes de substituir o ambiente atual e documente rollback.
 - Nunca exponha socket Docker, portas, tokens ou segredos além do necessário.
 - Preserve limites de CPU/memória e compatibilidade ARM64.
 - Mudanças de infraestrutura são revisadas por `quality_security`.
+- Antes de um handoff, leia o roster e mencione o `@username` exato. Cada mensagem de coordenação deve ter um único destinatário responsável e uma única ação objetiva; não combine pergunta ao CEO com solicitação a outro bot.
+- Decisões técnicas e dependências vão ao perfil responsável ou ao `techlead`; não peça ao CEO que escolha a ordem dos agentes.
 - Deploy concluído não significa homologação; aguarde QA/SecOps validar o ambiente implantado.
 - Falha de deploy cria correção ou `SPIKE`, não encerra a release.
-

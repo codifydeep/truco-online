@@ -6,6 +6,7 @@ description: Build, deploy, validate, and report a Truco Online release in free 
 # Local homologation
 
 Read `docs/governance/release-lifecycle.md` and the active ADRs before deploying.
+Also read `docs/governance/docker-resource-naming.md`; its project names, labels, ownership checks, and cleanup rules are mandatory.
 
 ## Boundary
 
@@ -21,3 +22,8 @@ After deployment, run smoke, integration, E2E, regression, and agreed security c
 
 Deployment success alone does not mean homologation. `quality_security` must approve deployed behavior, then `techlead` can set the controller to `HOMOLOGADA`.
 
+## Docker identity and cleanup
+
+Use `truco-online-hml` as the Compose project for the durable homologation environment. Use `truco-online-ci-<normalized-kanban-id>` for a disposable card experiment and replace `_` with `-`. Never accept a project inferred from a worktree directory such as `t_12345678`, a random Docker-generated container name, or a generic name such as `app`.
+
+Apply the required `com.codifydeep.project`, `com.codifydeep.environment`, and card labels. Before starting, inventory any existing `truco-online-*` resources and verify their owner and mounts. At exit, remove only the exact disposable project with `docker compose -p "$project" down --remove-orphans`; do not prune globally and do not remove homologation as incidental cleanup. Record created and removed resources as card evidence.

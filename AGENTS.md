@@ -20,6 +20,12 @@ Estas regras valem para todo o repositório.
 7. Depois de abrir e verificar o PR, o implementador usa a transição nativa `request-review` no mesmo card e informa o perfil revisor; não conclui o card antes da revisão.
 8. O revisor conclui o mesmo card quando aprova ou usa `request-changes` com motivos concretos, o que o devolve ao implementador original. Não crie um card de revisão separado para novos trabalhos.
 9. Como a PoC usa uma única conta GitHub, registre o perfil Hermes e o veredito em comentário no PR e no evento de revisão do Kanban; não tente adicionar usernames do Telegram como reviewers do GitHub.
+10. Um worktree pode ter sido criado antes de seus cards-pai serem integrados. Antes da primeira edição, com a árvore limpa, faça `git fetch origin`, confirme a release ativa e atualize a branch do card sobre `origin/release/vX.Y`; registre a base usada. Nunca implemente sobre uma cópia anterior às dependências concluídas.
+11. `request-review` sempre informa `reviewer` explicitamente e esse perfil deve ser diferente do implementador. Omitir reviewer é falha de protocolo e nunca autoriza conclusão.
+12. Em uma execução despachada a partir de `review`, o revisor jamais chama `request-review` novamente: aprova com `complete` ou devolve com `request-changes`. Antes de aprovar, confirme no evento mais recente que `implementer != reviewer`.
+13. Todo card executável recebe `max_runtime`: 60 minutos para documento/revisão e 120 minutos para implementação/testes. Timeout provoca recuperação, não conclusão da release.
+14. Antes de solicitar revisão, o implementador deve fazer push e confirmar que o SHA local é exatamente o `headRefOid` do PR. Revisão de commit existente apenas localmente é inválida.
+15. Ao aprovar, o revisor integra o PR em `release/vX.Y`, atualiza `origin/release/vX.Y` e confirma com `git merge-base --is-ancestor <sha-revisado> origin/release/vX.Y` antes de concluir o card. Se não puder integrar, o card permanece em revisão. Portanto, `done` significa artefato revisado **e integrado**, não apenas aprovado.
 
 ## TDD e regressão
 
@@ -46,6 +52,8 @@ Estas regras valem para todo o repositório.
 4. Não envie confirmação ou promessa sem executar trabalho, registrar decisão, atualizar o Kanban ou formular uma pergunta objetiva.
 5. Escrever o nome de um papel, como “CTO”, sem o username Telegram não aciona esse perfil; use sempre a menção registrada no roster.
 6. Depois da aprovação do Product Brief, não peça ao CEO para escolher agente, ordem de implementação, stack ou paralelização. Essas decisões pertencem ao Tech Lead e ao CTO.
+7. Cada mensagem de coordenação deve ter um único destinatário responsável e uma única ação objetiva. Nunca combine, na mesma mensagem, uma pergunta ao CEO com uma solicitação a outro bot.
+8. Pergunta dirigida a um agente deve começar com o `@username` exato desse agente. Se a decisão não for humana, atualize ou crie o card correspondente e acione o agente; não termine a mensagem aguardando o CEO.
 
 ## Identificadores canônicos dos perfis
 
@@ -70,3 +78,23 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 3. Comentário no Kanban ou mensagem no Telegram não substitui arquivo, commit, PR ou saída de teste.
 4. Se uma ferramenta indispensável não estiver disponível, bloqueie o card com diagnóstico objetivo. Nunca simule a entrega em texto.
 5. Revisores devem inspecionar o PR, o commit e os arquivos reais. Se qualquer evidência estiver ausente, solicite mudanças ou crie uma recuperação; não aceite a narrativa do implementador como prova.
+
+## Observabilidade
+
+1. O grupo Telegram é automaticamente inscrito nos eventos de todos os cards não arquivados.
+2. Heartbeat ausente, execução longa, falhas repetidas, processo duplicado e ausência prolongada de mudança Git geram alerta do Hermes Watchdog.
+3. O watchdog não aprova, conclui nem reatribui cards. Ele pode encerrar somente processos órfãos cujo PID não corresponda mais ao worker canônico registrado no Kanban, após o período de tolerância documentado.
+4. Um resumo do board é publicado a cada 30 minutos enquanto o serviço estiver ativo.
+
+## Docker: nomenclatura e ciclo de vida
+
+1. Todo recurso Docker criado para este produto deve pertencer a um projeto Compose cujo nome comece por `truco-online-`. Não permita que o Compose derive o projeto do nome do worktree ou do card.
+2. Use estes projetos canônicos: `truco-online-hml` para homologação persistente, `truco-online-dev` para desenvolvimento compartilhado e `truco-online-ci-<kanban-id-normalizado>` para experimentos isolados de um card. Normalize `_` para `-` no ID.
+3. Todo arquivo Compose deve declarar o campo raiz `name:`. Contêineres devem conservar o nome gerado pelo Compose (`<projeto>-<serviço>-<réplica>`); não use `container_name` salvo se uma integração legada exigir, e nesse caso o nome também deve começar por `truco-online-`.
+4. Todo serviço deve receber os labels `com.codifydeep.project=truco-online`, `com.codifydeep.environment=<dev|ci|hml>` e, para execução de card, `com.codifydeep.kanban=<id>`.
+5. Um `docker run` avulso é excepcional. Ele deve usar `--rm`, ou nome explícito `truco-online-<ambiente>-<kanban-id>-<finalidade>` quando precisar sobreviver ao processo, além dos mesmos labels.
+6. Recursos de CI, testes e `SPIKE` são temporários. O responsável deve registrar os nomes no card e executar `docker compose -p <projeto-exato> down --remove-orphans` ao terminar ou falhar. Use `-v` apenas para volumes comprovadamente descartáveis criados pelo mesmo card.
+7. Homologação é persistente e só pode ser substituída por um commit validado de `release/vX.Y`. Faça `docker compose -p truco-online-hml down` apenas como parte de deploy ou rollback documentado.
+8. Antes de remover qualquer recurso, confirme projeto, labels, mounts, card proprietário e ausência de worker ativo. É proibido usar `docker system prune`, `docker container prune`, `docker volume prune` ou limpeza por glob; nunca toque em recursos de outros projetos.
+9. Portas, volumes e redes devem estar declarados no Compose. Não deixe contêiner criado/parado, rede órfã, imagem experimental sem uso ou porta aleatória depois do encerramento do card.
+10. Siga o procedimento e os exemplos de `docs/governance/docker-resource-naming.md`. A verificação `scripts/ci/check-docker-naming.sh` é obrigatória na suíte do projeto.

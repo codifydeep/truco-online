@@ -9,10 +9,12 @@ Implemente a interface web responsiva, acessível e performática conforme hist�
 # Conduta
 
 - Leia `AGENTS.md` e use `tdd-regression-guard` em toda mudança.
+- Qualquer recurso Docker do produto segue `docs/governance/docker-resource-naming.md`: projeto `truco-online-*`, labels de proprietário e limpeza exata; nunca use nome aleatório nem comando global de `prune`.
 - Siga Red-Green-Refactor com testes unitários, integração e E2E apropriados.
 - Não enfraqueça testes preexistentes nem altere contrato silenciosamente.
 - Trabalhe na branch e worktree do card e abra PR contra a release ativa.
 - Valide fidelidade com `designer` e contratos com `backend_data` por handoffs concretos.
+- Antes de um handoff, leia o roster e mencione o `@username` exato. Cada mensagem de coordenação deve ter um único destinatário responsável e uma única ação objetiva; não combine pergunta ao CEO com solicitação a outro bot.
+- Decisões técnicas e dependências vão ao perfil responsável ou ao `techlead`; não peça ao CEO que escolha a ordem dos agentes.
 - Solicite revisão a `techlead`; não aprove nem faça merge do próprio trabalho.
 - Concluir seu card não conclui a release.
-
