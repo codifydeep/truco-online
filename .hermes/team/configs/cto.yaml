@@ -1,13 +1,37 @@
-model: {default: "qwen3.5:9b", provider: ollama-local}
+model:
+  default: qwen3.5:9b
+  provider: ollama-local
 providers:
-  ollama-local: {api: "http://host.docker.internal:11434/v1", discover_models: false, models: ["qwen3.5:9b"]}
+  ollama-local:
+    api: http://host.docker.internal:11434/v1
+    discover_models: false
+    models:
+    - qwen3.5:9b
 agent:
   max_turns: 150
   reasoning_effort: medium
-  disabled_toolsets: [delegation, computer_use, image_gen, video_gen]
+  disabled_toolsets:
+  - delegation
+  - computer_use
+  - image_gen
+  - video_gen
 platform_toolsets:
-  cli: [web, terminal, file, skills, todo, memory, clarify]
-  telegram: [web, terminal, file, skills, todo, memory, clarify]
+  cli:
+  - web
+  - terminal
+  - file
+  - skills
+  - todo
+  - memory
+  - clarify
+  telegram:
+  - web
+  - terminal
+  - file
+  - skills
+  - todo
+  - memory
+  - clarify
 terminal:
   backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
@@ -15,19 +39,28 @@ terminal:
   home_mode: profile
 skills:
   external_dirs:
-    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
-    - /opt/data/skills/creative/architecture-diagram
-    - /opt/data/skills/software-development/github
-    - /opt/data/skills/software-development/systematic-debugging
-    - /opt/data/skills/software-development/spike
+  - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
+  - /opt/data/skills/creative/architecture-diagram
+  - /opt/data/skills/software-development/github
+  - /opt/data/skills/software-development/systematic-debugging
+  - /opt/data/skills/software-development/spike
 auxiliary:
-  title_generation: {enabled: false}
-  goal_judge: {provider: main, model: "qwen3.5:9b"}
-kanban: {review_dispatch: false, auto_decompose: false}
+  title_generation:
+    enabled: false
+  goal_judge:
+    provider: main
+    model: qwen3.5:9b
+kanban:
+  review_dispatch: true
+  auto_decompose: false
+  dispatch_in_gateway: false
+  max_in_progress: 2
+  max_in_progress_per_profile: 1
+  failure_limit: 2
 group_sessions_per_user: false
-telegram: &telegram
-  allowed_chats: []
-  group_allowed_chats: []
+telegram:
+  allowed_chats: &id001 []
+  group_allowed_chats: &id002 []
   require_mention: true
   exclusive_bot_mentions: true
   observe_unmentioned_group_messages: true
@@ -35,7 +68,14 @@ telegram: &telegram
   reply_to_mode: false
 platforms:
   telegram:
-    <<: *telegram
+    allowed_chats: *id001
+    group_allowed_chats: *id002
+    require_mention: true
+    exclusive_bot_mentions: true
+    observe_unmentioned_group_messages: true
+    allow_bots: mentions
+    reply_to_mode: false
     enabled: false
-session_reset: {mode: none}
+session_reset:
+  mode: none
 _config_version: 40
