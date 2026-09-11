@@ -1,19 +1,37 @@
-model: &local_model
-  default: "qwen3.5:9b"
+model:
+  default: qwen3.5:9b
   provider: ollama-local
 providers:
   ollama-local:
     api: http://host.docker.internal:11434/v1
     discover_models: false
-    models: ["qwen3.5:9b"]
+    models:
+    - qwen3.5:9b
 agent:
   max_turns: 150
   reasoning_effort: medium
-  disabled_toolsets: [delegation, computer_use, image_gen, video_gen]
-toolsets: [kanban]
+  disabled_toolsets:
+  - delegation
+  - computer_use
+  - image_gen
+  - video_gen
+toolsets:
+- kanban
 platform_toolsets:
-  cli: [web, file, skills, todo, memory, clarify]
-  telegram: [web, file, skills, todo, memory, clarify]
+  cli:
+  - web
+  - file
+  - skills
+  - todo
+  - memory
+  - clarify
+  telegram:
+  - web
+  - file
+  - skills
+  - todo
+  - memory
+  - clarify
 terminal:
   backend: local
   cwd: /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online
@@ -21,31 +39,50 @@ terminal:
   home_mode: profile
 skills:
   external_dirs:
-    - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
-    - /opt/data/skills/research/grounded-citations
-    - /opt/data/skills/research/grounded-web-research-notes
+  - /Users/weber/Documents/projetos_pessoais_desenv/hermes/truco-online/.hermes/skills
+  - /opt/data/skills/research/grounded-citations
+  - /opt/data/skills/research/grounded-web-research-notes
 auxiliary:
-  title_generation: {enabled: false}
-  goal_judge: {provider: main, model: "qwen3.5:9b"}
-  kanban_decomposer: {provider: main, model: "qwen3.5:9b"}
-  triage_specifier: {provider: main, model: "qwen3.5:9b"}
+  title_generation:
+    enabled: false
+  goal_judge:
+    provider: main
+    model: qwen3.5:9b
+  kanban_decomposer:
+    provider: main
+    model: qwen3.5:9b
+  triage_specifier:
+    provider: main
+    model: qwen3.5:9b
 kanban:
-  review_dispatch: false
+  review_dispatch: true
   auto_decompose: false
+  dispatch_in_gateway: false
+  max_in_progress: 2
+  max_in_progress_per_profile: 1
+  failure_limit: 2
 group_sessions_per_user: false
-telegram: &telegram
-  allowed_chats: []
-  group_allowed_chats: []
+telegram:
+  allowed_chats: &id001 []
+  group_allowed_chats: &id002 []
   require_mention: true
-  mention_patterns:
-    - '^\[VERSAO:v[0-9]+\.[0-9]+\]'
+  mention_patterns: &id003
+  - ^\[VERSAO:v[0-9]+\.[0-9]+\]
   exclusive_bot_mentions: true
   observe_unmentioned_group_messages: true
   allow_bots: mentions
   reply_to_mode: false
 platforms:
   telegram:
-    <<: *telegram
+    allowed_chats: *id001
+    group_allowed_chats: *id002
+    require_mention: true
+    mention_patterns: *id003
+    exclusive_bot_mentions: true
+    observe_unmentioned_group_messages: true
+    allow_bots: mentions
+    reply_to_mode: false
     enabled: false
-session_reset: {mode: none}
+session_reset:
+  mode: none
 _config_version: 40
