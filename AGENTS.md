@@ -2,6 +2,8 @@
 
 Estas regras valem para todo o repositório.
 
+Contrato operacional consolidado: `docs/governance/company-contract.md`. Instruções históricas de cards não autorizam contrariar esse contrato, ignorar CI ou transferir decisões técnicas ao CEO. Havendo conflito, registre-o e encaminhe ao Tech Lead/CTO.
+
 ## Fonte de verdade e escopo
 
 1. Repositório e ADRs prevalecem sobre o Kanban; Kanban prevalece sobre o chat; memória individual nunca prevalece sobre artefatos persistidos.
@@ -26,6 +28,7 @@ Estas regras valem para todo o repositório.
 13. Todo card executável recebe `max_runtime`: 60 minutos para documento/revisão e 120 minutos para implementação/testes. Timeout provoca recuperação, não conclusão da release.
 14. Antes de solicitar revisão, o implementador deve fazer push e confirmar que o SHA local é exatamente o `headRefOid` do PR. Revisão de commit existente apenas localmente é inválida.
 15. Ao aprovar, o revisor integra o PR em `release/vX.Y`, atualiza `origin/release/vX.Y` e confirma com `git merge-base --is-ancestor <sha-revisado> origin/release/vX.Y` antes de concluir o card. Se não puder integrar, o card permanece em revisão. Portanto, `done` significa artefato revisado **e integrado**, não apenas aprovado.
+16. Branches de cards terminais são aposentadas pelo janitor, não pelos agentes. A remoção exige: card `done`/`archived`, nenhuma execução ativa, nenhum PR aberto, worktree limpo, carência operacional e tip comprovadamente ancestral de `origin/release/vX.Y` ou `origin/main`. `main`, `release/*`, branches não integradas e worktrees sujos são sempre preservados para auditoria.
 
 ## TDD e regressão
 
@@ -43,6 +46,17 @@ Estas regras valem para todo o repositório.
 4. Impasse repetido sem evidência vira um card `SPIKE` com hipótese, experimento e critério objetivo.
 5. Dependência exclusivamente humana usa `BLOQUEADA_AGUARDANDO_CEO` e retoma do mesmo estado.
 6. Somente `HOMOLOGADA` é conclusão bem-sucedida; cancelamento exige ordem explícita do CEO.
+7. Impedimentos usam um `INCIDENT-<card>` idempotente fora do DAG bloqueado. Especialista escala ao Tech Lead e Tech Lead ao CTO. CTO mantém responsabilidade técnica mesmo após timeout; CEO só decide produto/escopo, credenciais, autorizações ou exceções explícitas. Não crie gerações de RECOVERY/PLAN.
+8. Um plano deve ser revisado e integrado antes da materialização do grafo. O grafo deve ser revisado antes de liberar qualquer filho de implementação.
+
+## Isolamento dos worktrees e handoffs
+
+1. Em worker Kanban, confirme antes de qualquer edição que `pwd` é exatamente o `workspace_path` do card e que a branch corresponde ao card.
+2. Nunca edite o checkout raiz nem copie, resete ou reutilize worktree de outro card. Diagnóstico de INCIDENT pode ler o workspace_path original, sem alterá-lo. Dependências chegam somente por `origin/release/vX.Y` após revisão e integração.
+3. Todo card criado por worker inclui o card corrente como pai. Dependências adicionais formam o DAG, mas nunca substituem esse gate.
+4. Não informe `workspace_path` para um filho; o Hermes cria um worktree novo pelo ID do card.
+5. Workers não criam `RELEASE-*`. O controlador é único, sentinela, administrado fora das execuções e nunca é pai bloqueante nem worker despachável.
+6. Somente workers `GRAPH-*` e `RECOVERY-*` podem criar filhos. `PLAN-*`, governança e implementações produzem seu próprio artefato/revisão e não fazem fan-out.
 
 ## Colaboração no Telegram
 
@@ -83,7 +97,7 @@ Não traduza nem invente aliases como `product`, `product-designer`, `tech-lead`
 
 1. O grupo Telegram é automaticamente inscrito nos eventos de todos os cards não arquivados.
 2. Heartbeat ausente, execução longa, falhas repetidas, processo duplicado e ausência prolongada de mudança Git geram alerta do Hermes Watchdog.
-3. O watchdog não aprova, conclui nem reatribui cards. Ele pode encerrar somente processos órfãos cujo PID não corresponda mais ao worker canônico registrado no Kanban, após o período de tolerância documentado.
+3. O watchdog não aprova nem conclui entregas. O supervisor pode atribuir/escalar INCIDENT ao Tech Lead/CTO e solicitar recuperação pelo Kanban. Pode encerrar somente processos comprovadamente órfãos, após tolerância e revalidação. Alerta não prova recuperação: confirme execução útil e entrega.
 4. Um resumo do board é publicado a cada 30 minutos enquanto o serviço estiver ativo.
 
 ## Docker: nomenclatura e ciclo de vida
