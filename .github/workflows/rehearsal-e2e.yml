@@ -1,0 +1,30 @@
+name: rehearsal-e2e
+on:
+  pull_request:
+    branches: ["codex/rehearsal-e2e-base-20260915"]
+permissions:
+  contents: read
+concurrency:
+  group: rehearsal-e2e-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  e2e-contract:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'codex/rehearsal-e2e-build-20260915'
+    runs-on: [self-hosted, linux, arm64, truco-local]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Trusted base gate and isolated tests
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          TEST_IMAGE: estudo-hermes-saas:0.21.28
+        run: |
+          set -eu
+          trusted=$(mktemp "${RUNNER_TEMP}/e2e-ci.XXXXXX.py")
+          git show "${BASE_SHA}:rehearsal/ci.py" > "$trusted"
+          python3 "$trusted"
