@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "release/**"
+      - "codex/restart-baseline-20260911"
   workflow_dispatch:
 
 permissions:
@@ -41,3 +42,6 @@ jobs:
 
       - name: Executar verificações do projeto
         run: bash scripts/ci/run-project-checks.sh
+
+      - name: Conferir snapshots de planejamento exportados
+        run: python3 scripts/ci/check-planning-snapshots.py
