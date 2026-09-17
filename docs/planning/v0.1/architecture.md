@@ -36,7 +36,7 @@ Cada decisão compara alternativas, escolhe e justifica. Hipóteses não medidas
 
 **Decisão:** (d).
 
-**Justificativa:** uma única linguagem (TypeScript) em backend e frontend reduz atrito de contrato de tipos compartilhados; ARM64 tem imagens oficiais `node:22-alpine`. Elixir é excelente para concorrência e Phoenix Channels ofereceria ótima reconexão, mas introduz segunda linguagem no time e aumenta a superfície de aprendizado para a fatia. Go é ótimo e compila nativamente para ARM64, porém mantém dois ecossistemas e um protocolo mais manual. Socket.IO traz reconexão embutida e fallbacks, mas esconde o protocolo atrás de sua camada própria — este ADR prefere um protocolo JSON explícito e testável por frames, por isso `ws` nativo com reconexão implementada no cliente (D6).
+**Justificativa:** uma única linguagem (TypeScript) em backend e frontend reduz atrito de contrato de tipos compartilhados; ARM64 tem imagens oficiais `node:22-alpine`. Elixir é excelente para concorrência e Phoenix Channels ofereceria ótima reconexão, mas introduz segunda linguagem no time e aumenta a superfície de aprendizado para a fatia. Go é ótimo e compila nativamente para ARM64, porém mantém dois ecossistemas e um protocolo mais manual. Socket.IO traz reconexão embutida e fallbacks, mas esconde o protocolo atrás de sua camada própria — este ADR prefere um protocolo JSON explícito e testável por frames, por isso `ws` nativo com reconexão implementada no cliente (D7).
 
 **Consequências:** a reconexão é responsabilidade nossa (documentada e testada). Ganhamos transparência no contrato e integração testável frame a frame.
 
@@ -110,13 +110,13 @@ Cada decisão compara alternativas, escolhe e justifica. Hipóteses não medidas
 
 **Nota de produto:** a experiência de espera/saída (textos, botões) será documentada pelo Produto; este ADR define a política técnica de tempo e identidade.
 
-### D8 — Frontend: React + TypeScript + Vite, com seixo de renderização para 3D
+### D8 — Frontend: React + TypeScript + Vite, com camada/estratégia de renderização para 3D
 
-**Decisão:** frontend React 18 + TypeScript + Vite. O lobby é 2D e não importa Three.js. A partida 3D (V01-07) será adicionada por trás de uma interface de renderer (`IRenderer`) e um `lazy import`, mantendo o lobby leve e o bundle 3D separado.
+**Decisão:** frontend React 18 + TypeScript + Vite. O lobby é 2D e não importa Three.js. A partida 3D (V01-07) será adicionada por trás de uma interface de renderer (`IRenderer`) e um `lazy import`, mantendo o lobby leve e o bundle 3D separado. A estratégia de renderização por trás dessa interface (engine 3D, cena, câmera) fica encapsulada e trocável, sem acoplar o lobby à escolha concreta.
 
 **Alternativas consideradas:** (a) Svelte; (b) Vue; (c) vanilla. React + TypeScript foi escolhido por ecossistema maduro, tipagem compartilhada com o backend e suporte robusto a testes (Vitest/Testing Library) e ao `lazy` para o módulo 3D. Svelte/Vue são válidos, mas React já é a aposta de menor risco para evolução 3D com Three.js e bibliotecas de exemplo.
 
-**Evolução para 3D:** a decisão de engine 3D (Three.js candidata) é do CTO e será registrada em ADR próprio quando a partida for planejada. Este ADR apenas garante a costura (renderer interface + code-splitting) para não engessar o lobby.
+**Evolução para 3D:** a decisão do renderer concreto e da engine 3D (Three.js candidata) é do CTO e será registrada em ADR próprio quando a partida for planejada. Este ADR apenas garante a costura (interface de renderer `IRenderer` + code-splitting/`lazy`) para não engessar o lobby.
 
 ### D9 — Testes: TDD unitário + integração + E2E em dois navegadores
 
@@ -181,7 +181,7 @@ Critérios objetivos, mapeados aos aceites da fatia. Evidência = saída de test
 | R7 | "Sala completa" mal interpretada como partida entregue. | Estado "completa" sem botão de jogo; brief mantém v0.1 ATIVA (documentado neste ADR). |
 | R8 | Desempenho (1s p95 / 30 FPS) são metas não medidas. | Não declarar como evidência; QA mede e registra método (seção Hipóteses não medidas). |
 | P1 | Pré-condições operacionais do brief (recibo deepseek ds1, contrato Qwen, gateways do board, ferramentas fechadas da fixture) ainda não declaradas concluídas. | Confirmadas pelos perfis responsáveis antes de qualquer card de implementação. |
-| P2 | Decisão da engine 3D e do contrato de regras (manilhas, empates, escalada, mão de onze/ferro) fica para ADRs/histórias posteriores. | Não bloqueiam o lobby; produto apresenta contrato antes de V01-05. |
+| P2 | Decisão do renderer/engine 3D e do contrato de regras (manilhas, empates, escalada, mão de onze/ferro) fica para ADRs/histórias posteriores. | Não bloqueiam o lobby; produto apresenta contrato antes de V01-05. |
 | P3 | Rollback ainda não comprovado nesta fase de planejamento. | Procedimento definido (D10); evidência de rollback é requisito do gate LOB-07 (CV-08). |
 
-**Pendência de revisão:** este ADR segue para revisão independente do Tech Lead. Nenhum código, PR, deploy ou release é executado por este planejamento.
+**Pendência de revisão:** este ADR segue para revisão independente do Tech Lead. Nenhum código, PR, deploy ou release é executado por este planejamento. Nenhuma alegativa de que CI/deploy foram executados consta neste documento — ele apenas define critérios e procedimentos para que tais execuções futuras sejam registradas como evidência.

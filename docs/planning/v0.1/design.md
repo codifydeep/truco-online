@@ -2,9 +2,11 @@
 
 **Tarefa:** t_97deb23b
 **Perfil:** designer (AUTHOR)
-**Brief de referência:** BRIEF-TRUCO-v0.1-R1-202616 (SHA-256 `273d7760dc25b2641631a98a8d3aef352883d4a92469c145154285e9dd17d403`)
-**Escopo:** especificar fluxos e estados do lobby em português, a partir das histórias aprovadas (LOB-01..07) e da fatia do Produto (`t_10ca48e7`): entrada/apelido, vazio/carregando/erro, criação/espera, disputa/lotação, desconexão e transição pré-jogo. Inclui acessibilidade, responsividade desktop e mapeamento LOB. **Wireframes textuais** — sem HTML/JS, sem implementação 3D nesta etapa.
+**Brief de referência:** BRIEF-TRUCO-v0.1-R1-20260916 (SHA-256 `273d7760dc25b2641631a98a8d3aef352883d4a92469c145154285e9dd17d403`)
+**Escopo:** especificar fluxos e estados do lobby em português brasileiro, a partir das histórias aprovadas (LOB-01..07) e da fatia do Produto (`t_10ca48e7`): entrada/apelido, vazio/carregando/erro, criação/espera, disputa/lotação, desconexão e transição pré-jogo, incluindo acessibilidade, responsividade desktop e mapeamento LOB. **Wireframes textuais** — sem HTML/JS, sem implementação 3D nesta etapa.
 **Estado:** DESIGN — documento de design; não implementa, não homologa, não revisa o próprio trabalho.
+
+> **Registro de correções (t_fd99c33d):** documento corrigido integralmente a partir do design original (t_97deb23b): identificador do brief alinhado ao canônico aprovado `BRIEF-TRUCO-v0.1-R1-20260916`; grafia do substantivo "brief" corrigida onde aparecia mal escrita; ortografia, léxico e redação normalizados a português brasileiro consistente em todo o documento. Todos os fluxos, estados, histórias LOB, critérios verificáveis, requisitos de acessibilidade e responsividade foram preservados integralmente. Esta correção não inventa validação de interface, não expande o escopo aprovado e não implementa código. As decisões técnicas permanecem da competência do CTO/Tech Lead.
 
 ---
 
@@ -30,17 +32,17 @@ Decisões de design de produto fundamentadas no brief e nas histórias aprovadas
 1. **Apelido como rótulo de exibição, não identidade.** O visitante informa apenas o apelido; ele não identifica a sessão. Apelidos iguais são permitidos. A identidade técnica é do CTO (LOB-05/LOB-06).
 2. **Normalização do apelido:** trim das extremidades + faixa **1–20 inclusiva** (20 válido; rejeita vazio-após-trim e >20). Erro renderizado como **texto puro**, nunca executando HTML/script (LOB-05).
 3. **Entrada em sala validada pelo servidor** (no cliente, apenas feedback imediato/visual). Capacidade de sala = 2, aplicada no servidor; sala cheia sai da lista de disponíveis (LOB-03/04).
-4. **Atualização sem recarregar a página é requisito** (LOB-02/03): lista e estados refletem mudanças em até 1s (p95) no host de homologação. O meio técnico (WebSocket/SSE/outro) é escolha do CTO; o design apenas depende da **paridade entre navegadores independentes**.
-5. **Design de estados explícitos** do lobby: vazio, carregando, erro, sala disponível, aguardando 2º, sala completa, sala removida/inexistente, conexão perdida, transição pré-jogo. Nenhum estado ambíguo ou "falso disponível".
+4. **Atualização sem recarregar a página é requisito** (LOB-02/03): lista e estados refletem mudanças em até 1 s (p95) no host de homologação. O meio técnico (WebSocket/SSE/outro) é escolha do CTO; o design apenas depende da **paridade entre navegadores independentes**.
+5. **Design de estados explícitos** do lobby: vazio, carregando, erro, sala disponível, aguardando 2º, sala completa, sala removida/inexistente, conexão perdida, transição pré-jogo. Sem estados ambíguos nem "falso disponível".
 6. **Sem botão de "jogo simulado".** "Sala completa" não significa partida; a transição pré-jogo é apenas a passagem para o estado de partida (a ser implementado em fases posteriores). Não há atalho que engane o usuário (brief).
-7. **Responsividade desktop mínima:** viewport a partir de **1280×720** (Chrome e Firefox), com layout fluido que não quebra em janelas maiores; telas do lobby podem ser 2D (3D só na partida, fora desta etapa).
+7. **Responsividade desktop mínima:** viewport a partir de **1280×720** (Chrome e Firefox), com layout fluido que não quebre em janelas maiores; telas do lobby podem ser 2D (3D só na partida, fora desta etapa).
 8. **Acessibilidade como critério:** navegação por teclado completa, foco visível, contraste adequado (WCAG AA), leitores de tela (`aria-live` nos estados/erros), alvos de clique ≥ 44×44 e textos de erro associados ao campo (não apenas visuais).
 
 **Alternativas consideradas (design, não técnica):**
-- *Tela única combinando apelido, criar e listar de uma vez* — descartado: mistura tarefas com pesos diferentes, prejudica foco e leitura para leitores de tela. Mantidas etapas claras (apelido → ação).
-- *Listar todas as salas, inclusive cheias* — descartado: contradiz o brief (listar apenas aguardando 2º). Sala cheia desaparece da lista.
-- *Atualização por botão manual "atualizar"* — descartado como único meio: o briefly exige atualização sem recarregar; botão manual seria redundante e não substitui a exigência.
-- *Permitir apelido > 20 com truncamento* — descartado: rejeita e informa; truncar silenciosamente esconderia a regra.
+- *Tela única que combina apelido, criar e listar de uma vez* — descartada: mistura tarefas com pesos diferentes, prejudica o foco e a leitura para leitores de tela. Mantidas etapas claras (apelido → ação).
+- *Listar todas as salas, inclusive as que já estão completas* — descartada: contradiz o brief (listar apenas as que aguardam o 2º). Sala cheia desaparece da lista.
+- *Atualização por botão manual "atualizar"* — descartada como único meio: o brief exige atualização sem recarregar; um botão manual seria redundante e não dispensa essa exigência.
+- *Permitir apelido maior que 20 mediante truncamento* — descartada: rejeita e informa; truncar silenciosamente esconderia a regra.
 
 ---
 
@@ -50,29 +52,29 @@ Fluxo principal do lobby:
 
 ```
 [Início do lobby]
-      │
+      |
       ▼
 [Apelido] ──vazio//>20──▶ [Erro de apelido (texto puro)]
-      │ válido
+      | válido
       ▼
    [Escolha]
-   ├──▶ "Criar sala" ──▶ [Criar][carregando] ─▶ [Espera: aguardando 2º] ──(B entra)──▶ [Sala completa]
-   └──▶ "Entrar na sala dá lista" ──▶ [Lista de salas][carregando/erro] ─▶ clicar em sala
+   ├──▶ "Criar sala" ──▶ [Criar][carregando] ──▶ [Espera: aguardando 2º] ──(B entra)──▶ [Sala completa]
+   └──▶ "Entrar numa sala da lista" ──▶ [Lista de salas][carregando/erro] ──▶ clicar numa sala
               ──disputa última vaga──▶ [Sala completa] (exatamente 1 entra; outro erro)
-                      │                                     │
-   Durante espera/completa: [Conexão perdida] / [Sala removida]  │
-                                 └──────────────────────────────▼
+                      |                                     |
+   Durante espera/completa: [Conexão perdida] / [Sala removida]  |
+                                 └───────────────────────────────▼
                                              [Transição pré-jogo]  (marco intermediário, ainda 2D — partida não implementada)
 ```
 
-Estados de tela obrigatórios e sua transição:
+Estados de tela obrigatórios e a sua transição:
 
 | Estado | Gatilho de entrada | Saída |
 |---|---|---|
 | `vazio` | lobby sem apelido ainda informado | digita apelido válido ou erro |
 | `carregando` | envio de criação/lista/entrada | sucesso ou erro |
 | `erro` | falha (rede/servidor/validação) | nova tentativa |
-| `lista-disponiveis` | sessão independente abre lobby | cria ou entra |
+| `lista-disponiveis` | sessão independente abre o lobby | cria ou entra |
 | `aguardando-2o` | sala criada, 1 participante | 2º entra / queda / saída |
 | `sala-completa` | 2 participantes | transição pré-jogo / queda |
 | `sala-removida` | sala encerrada/não existe | retorna ao lobby |
@@ -83,7 +85,7 @@ Estados de tela obrigatórios e sua transição:
 
 ## Critérios verificáveis
 
-Cada critério é verificável por inspeção de design (wireframes textuais, textos, acessibilidade e responsividade) e mapeia para LOB. Não depende de implementação.
+Cada critério é verificável por inspeção do design (wireframes textuais, textos, acessibilidade e responsividade) e mapeia para LOB. Não depende da implementação.
 
 ### A. Entrada/apelido e estados vazio/carregando/erro
 
@@ -101,7 +103,7 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 ### C. Disputa/lotação e sala completa
 
 - **D-C01 (LOB-03):** o wireframe da "sala completa" mostra os dois participantes (apelidos) e o estado "sala completa", com ênfase visual; a tela de espera do 2º muda para a de ambos prontos sem recarregar.
-- **D-C02 (LOB-04):** sala cheia some da lista de disponíveis no wireframe; o terceiro cliente não encontra atalho para entrar e, se tentar por URL/ID, recebe mensagem clara "sala cheia/indisponível" (texto puro).
+- **D-C02 (LOB-04):** sala cheia some da lista de disponíveis no wireframe; o terceiro cliente não encontra atalho para entrar e, se tenta por URL/ID, recebe mensagem clara "sala cheia/indisponível" (texto puro).
 - **D-C03 (LOB-04):** na disputa da última vaga, apenas um participante passa para "sala completa"; o outro recebe o mesmo estado de erro indisponível. O design prevê que a competição acontece no servidor (decisão do CTO); o cliente mostra apenas o resultado.
 - **D-C04:** o botão/área de entrada em sala tem alvo ≥ 44×44 e rótulo acessível (nome da sala + criador + "entrar").
 
@@ -116,13 +118,13 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 
 - **D-E01:** todo fluxo é navegável por teclado (Tab em ordem lógica; Enter ativa ações); foco visível em todos os estados (não removido).
 - **D-E02:** contraste de texto/UI atende WCAG AA; estados não são comunicados apenas por cor (acompanham texto/ícone).
-- **D-E03:** erros e mudanças de estado usam `aria-live` adequado (assertivo p/ erros, polido p/ atualizações de lista); leitores de tela identificam o ambiente com `aria-label`/`role` claros.
+- **D-E03:** erros e mudanças de estado usam `aria-live` adequado (assertivo para erros, polido para atualizações de lista); leitores de tela identificam o ambiente com `aria-label`/`role` claros.
 - **D-E04:** o widget de copiar identificador tem alternativas (ex.: exibir o ID em texto para leitura) e rótulos completos.
 
 ### F. Responsividade desktop
 
-- **D-F01 (brief — metas):** layouts validados a partir de **1280×720** até viewport desktop maiores; layout fluido (colunas/grade simples) sem scroll horizontal e sem elementos sobrepostos.
-- **D-F02 (brief):** linkado a Chrome e Firefox desktop como referência; o design não depende de dimensões fixas rígidas nem de interação exclusiva de mouse.
+- **D-F01 (brief — metas):** layouts validados a partir de **1280×720** até viewports desktop maiores; layout fluido (colunas/grade simples) sem scroll horizontal e sem elementos sobrepostos.
+- **D-F02 (brief):** vinculado a Chrome e Firefox desktop como referência; o design não depende de dimensões fixas rígidas nem de interação exclusiva de mouse.
 
 ---
 
@@ -131,18 +133,18 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 ### 1) Tela inicial — entrada de apelido (estados: vazio/carregando/erro)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  TRUCO PAULISTA — lobby                         [logo/marca] │
-│                                                              │
-│   [Campo Apelido   (1–20 caracteres)_______________]  [[Criar sala]]  >
-│                                                              │
-│   ou escolha uma sala disponível abaixo:                     │
+┌────────────────────────────────────────────────────────────────┐
+│  TRUCO PAULISTA — lobby                  [logo/marca]    │
+│                                                          │
+│   [Campo Apelido   (1–20 caracteres)______]  [[Criar sala]] >
+│                                                          │
+│   ou escolha uma sala disponível abaixo:                 │
 │   ┌────────────────────────────────────────────────────────┐ │
-│   │ Sala  •  criador: Amane       • aguardando 2º  [Entrar] │ │
-│   │ Sala  •  criador: Amane(2)    • aguardando 2º  [Entrar] │ │
-│   │ (lista atualiza automaticamente, sem recarregar)        │ │
+│   │ Sala  •  criador: Amane     • aguardando 2º [Entrar]│ │
+│   │ Sala  •  criador: Amane(2)  • aguardando 2º [Entrar]│ │
+│   │ (lista atualiza automaticamente, sem recarregar)    │ │
 │   └────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
 ```
 
 - **vazio:** campo neutro, botão "Criar sala" desabilitado.
@@ -153,29 +155,29 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 ### 2) Espera — "aguardando 2º jogador" (criador)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Sala aberta                                    [Sair da sala] │
-│                                                              │
-│   Identificador:  TRUCO-7F3A        [copiar]                 │
-│                                                              │
-│   ●  Amane  (você, criador)  — aguardando 2º jogador        │
-│   ○  (aguardando...)                                        │
-│                                                              │
-│   A lista pública atualiza sem recarregar.                   │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│  Sala aberta                             [Sair da sala]  │
+│                                                          │
+│   Identificador:  TRUCO-7F3A        [copiar]             │
+│                                                          │
+│   ●  Amane  (você, criador)  — aguardando 2º jogador     │
+│   ○  (aguardando...)                                     │
+│                                                          │
+│   A lista pública atualiza sem recarregar.               │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ### 3) Sala completa — ambos os participantes
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Sala completa      ID: TRUCO-7F3A          [Sair da sala]   │
-│                                                              │
-│   ●  Amane          ●  Bruno                                  │
-│                                                              │
-│   Dois jogadores prontos.  A partida começa em seguida.      │
-│   (transição pré-jogo — ainda não é a partida em 3D)         │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│  Sala completa     ID: TRUCO-7F3A       [Sair da sala]   │
+│                                                          │
+│   ●  Amane          ●  Bruno                             │
+│                                                          │
+│   Dois jogadores prontos.  A partida começa em seguida. │
+│   (transição pré-jogo — ainda não é a partida em 3D)     │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 - Este é o **limite da fatia de lobby**. Não há botão de jogo simulado nem 3D nesta etapa.
@@ -183,27 +185,27 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 ### 4) Lista de salas — sessão independente (LOB-02)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Salas aguardando o 2º jogador      (atualização automática) │
-│   • TRUCO-7F3A — Amane                [Entrar]               │
-│   • TRUCO-9C11 — Duda                 [Entrar]               │
-│  Sala cheia não aparece nesta lista.                        │
-│  [Atualizar manualmente não substitui a atualização autom.] │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│  Salas aguardando o 2º jogador (atualização automática)  │
+│   • TRUCO-7F3A — Amane            [Entrar]               │
+│   • TRUCO-9C11 — Duda             [Entrar]               │
+│  Sala cheia não aparece nesta lista.                     │
+│  [Atualizar manualmente não dispensa a automática]       │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ### 5) Desconexão / sala removida (LOB-06)
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Conexão perdida        — reconectando...                    │
-│  [Tentar novamente]     [Voltar ao lobby]                    │
-│                                                              │
-│  Sala não encontrada / removida — [Voltar ao lobby]          │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│  Conexão perdida      — reconectando...                  │
+│  [Tentar novamente]     [Voltar ao lobby]                │
+│                                                          │
+│  Sala não encontrada / removida — [Voltar ao lobby]      │
+└────────────────────────────────────────────────────────────────┘
 ```
 
-- Nunca há indicação de "aguardando 2º" em sala que não existe mais (política de limpeza/timeout do CTO).
+- Nunca há indicação de "aguardando 2º" em sala que já não existe (política de limpeza/timeout do CTO).
 
 ---
 
@@ -217,7 +219,7 @@ Cada critério é verificável por inspeção de design (wireframes textuais, te
 | LOB-04 | Terceiro rejeitado; última vaga | D-C02/03 |
 | LOB-05 | Apelido vazio/faixa/exibição segura | D-A01/02 |
 | LOB-06 | Desconexão sem sala falsa | D-D01/02, wireframe 5 |
-| LOB-07 | Regressão/revisão/CI/QA dois browsers | cobertura dos wireframes/estados nos dois browsers (QA) |
+| LOB-07 | Regressão/revisão/CI/QA dois navegadores | cobertura dos wireframes/estados nos dois navegadores (QA) |
 | V01-08 | Estados claros, reconexão/encerramento | D-A04, D-D01, seção Estados |
 
 ---

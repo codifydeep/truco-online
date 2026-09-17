@@ -13,31 +13,31 @@
       "sha256": "0293761bb1955e4a8c32d37f2f08718a8f88f62415451eaf0803ba184a81db23"
     },
     {
-      "task": "t_75520b49",
-      "revision": "786cb0d7aaf9a46c554fb546365cc83fcd308d0b6f1026df456b64976fd1099b",
-      "review_run": 7,
-      "author": "cto",
-      "reviewer": "techlead",
-      "path": "architecture.md",
-      "sha256": "07649621c923d3ae4cd5815a3e87390694a94829c3902e980ea8595531443367"
-    },
-    {
-      "task": "t_97deb23b",
-      "revision": "8b8e4667a020be1f9e0762d73a5ffd8ba3f38c9fd855e640daea87ffb3497b9c",
-      "review_run": 19,
+      "task": "t_fd99c33d",
+      "revision": "4c42dd7630384ab28edace6a84e39f3d45561f50235763e07732c2a493943f4d",
+      "review_run": 43,
       "author": "designer",
       "reviewer": "produto",
       "path": "design.md",
-      "sha256": "a490e4a5d604b5cbeaa8269bb6da5ffd2fda5eb2dc428e88e2e4475b53064599"
+      "sha256": "e71679e326f0bac8404a61044e575b358acd31c866ee71e9ebbda1f3b05688ac"
     },
     {
-      "task": "t_83fc342c",
-      "revision": "b7cc450757c75ae78f20675dd508340a338d50d2a01d52872b1087c835a3630c",
-      "review_run": 24,
+      "task": "t_66a7d8ef",
+      "revision": "3ee02afc5cb74b385b84d8cf36139426a76cdbab9471d4a42dafdf62df88a833",
+      "review_run": 35,
+      "author": "cto",
+      "reviewer": "techlead",
+      "path": "architecture.md",
+      "sha256": "6c2ec1c4fea42fa9a803e621837d68948acdcf924e4d8a9f72a5fdd6f84713fe"
+    },
+    {
+      "task": "t_3c648e2e",
+      "revision": "004b610b9d20b49c6b0ed221a703d49ce644b2659e6f9fe407d04e7397e0e585",
+      "review_run": 46,
       "author": "techlead",
       "reviewer": "cto",
       "path": "plan.md",
-      "sha256": "13229745d6d11c63219f86ed236c2b6fe14328be87b3a132fd144c966a640e9a"
+      "sha256": "2df23d3a1f2bf168cb89989de1c582411235b07ff2e891cc9cf5437a72bd9d6a"
     }
   ]
 }
