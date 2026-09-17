@@ -1,61 +1,62 @@
-# Ciclo de vida de uma release
+# Lifecycle de releases e tentativas
 
-## Dois níveis de estado
+A versão comercial e a tentativa de execução são identidades diferentes.
+Uma tentativa cancelada nunca transfere aprovações, cards ou evidências para
+outra tentativa. Uma única release de produto pode estar ativa.
 
-O Hermes Kanban mantém os estados nativos dos cards (`triage`, `todo`, `ready`, `running`, `review`, `blocked`, `done` e `archived`). O estado da release é um campo lógico registrado nos metadados e comentários do card controlador `RELEASE-vX.Y`; ele não cria colunas personalizadas no Kanban.
+## Estados persistentes
 
-Estados lógicos permitidos:
+EM_DESCOBERTA → AGUARDANDO_APROVACAO_DO_BRIEF → ATIVA → EM_HOMOLOGACAO → HOMOLOGADA.
 
-1. `EM_DESCOBERTA`
-2. `AGUARDANDO_APROVACAO_DO_BRIEF`
-3. `ATIVA`
-4. `BLOQUEADA_AGUARDANDO_CEO`
-5. `EM_HOMOLOGACAO`
-6. `HOMOLOGADA`
-7. `CANCELADA_PELO_CEO`
+ATIVA e EM_HOMOLOGACAO podem entrar em BLOQUEADA_AGUARDANDO_CEO somente por
+dependência humana identificada. CANCELADA_PELO_CEO requer decisão explícita.
+Não existe conclusão por número de mensagens, timeout, ausência de cards ready
+ou fim de uma execução individual.
 
-## Fluxo obrigatório
+O ledger operacional registra transições com estado anterior esperado,
+responsável e evidência. Comentários e Telegram explicam o estado, não o
+substituem. O controlador RELEASE não é pai bloqueante de cards executáveis.
 
-1. O CEO inicia com `[VERSAO:vX.Y]`.
-2. Produto entrevista o CEO, registra o Product Brief e solicita uma aprovação explícita.
-3. Depois da aprovação, o Tech Lead cria `release/vX.Y`, o card controlador e seu grafo de filhos.
-4. Produto, Design e CTO produzem critérios de aceite, fluxos e ADRs.
-5. Implementações seguem em paralelo quando as dependências permitirem.
-6. Cada mudança de código passa por PR, CI e revisão independente.
-7. QA/SecOps executa validação integrada antes e depois do deploy.
-8. DevOps publica a release em Docker local.
-9. O Tech Lead registra URL, commit, PRs, testes, APK, acesso Expo Go e evidências.
-10. O controlador só recebe `HOMOLOGADA` com todos os critérios de saída comprovados.
+## Brief e decomposição
 
-## Persistência e falhas
+Produto reaproveita o objetivo informado, esclarece apenas dúvidas relevantes
+e apresenta critérios identificados. CEO aprova uma versão imutável do brief.
+CTO decide arquitetura; Tech Lead registra o plano e o grafo acíclico.
 
-- O card controlador permanece vivo enquanto houver filhos pendentes.
-- Uma execução sem sucesso pode ser tentada duas vezes automaticamente; depois disso, o Tech Lead diagnostica, divide, corrige pré-condições ou reatribui.
-- O bloqueio de um card não conclui nem cancela a release.
-- Não existir card imediatamente executável não autoriza declarar sucesso.
-- Só o CEO pode cancelar uma release.
+Cada card terá responsável, critérios de aceite, dependências reais, revisor,
+workspace, prazo e evidências esperadas. Documentação não deve receber um ciclo
+Red artificial. Implementação e correção de código seguem TDD.
 
-## Watchdog de progresso
+## Entrega e recuperação
 
-Quando o mesmo impasse reaparecer sem nova evidência, o Tech Lead cria um `SPIKE`. O card deve registrar:
+Implementador faz commit e push, verifica o SHA do PR e solicita revisão no
+mesmo card. Revisor devolve mudanças ao autor ou integra após CI e análise.
+Um novo SHA invalida a revisão anterior. Main recebe somente fundação/governança
+autorizada; mudanças de produto seguem para release/vX.Y.
 
-- pergunta ou decisão a resolver;
-- hipóteses concorrentes;
-- experimento local executável;
-- responsável;
-- evidência esperada;
-- critério de escolha.
+Cada ocorrência de falha gera incidente identificado fora do DAG bloqueado.
+Especialistas escalam ao Tech Lead; este ao CTO. Dez minutos sem progresso
+exigem alerta e trinta exigem escalonamento/experimento. Duas tentativas iguais
+sem nova evidência não autorizam repetição infinita.
 
-O resultado deve ser anexado ao card ou persistido no repositório. Se nenhuma opção puder ser validada localmente, a release muda para `BLOQUEADA_AGUARDANDO_CEO` e o CEO recebe uma pergunta específica. A resposta reativa o mesmo grafo.
+O supervisor pode criar um SPIKE real. Seu resultado inclui hipótese, critério,
+comandos, saídas e decisão. CTO aplica a decisão por replanejamento ou devolução
+ao implementador. Experimento concluído, card ready e heartbeat não encerram
+o incidente. A condição original precisa ser verificada.
 
-## Critérios de saída de homologação
+## Homologação
 
-- Branch `release/vX.Y` identificada por commit imutável.
-- CI completa verde.
-- Ambiente local iniciado a partir desse commit.
-- Health checks aprovados.
-- Testes E2E e de regressão aprovados no ambiente implantado.
-- Verificações de segurança aprovadas ou riscos explicitamente aceitos pelo CEO.
-- URL web/API, APK Android e instruções Expo Go entregues quando aplicáveis.
-- Evidências e limitações registradas no relatório da release.
+Todos os critérios da baseline aprovada devem estar cobertos por cards
+concluídos e evidências. O relatório não pode omitir critérios para passar.
+QA e DevOps devem comprovar testes e implantação do mesmo commit, incluindo
+saúde dos serviços, URL acessível, limitações e rollback.
 
+Na v0.1, plataformas=[web]. APK e Expo Go não são requisitos desta release.
+Recibos duráveis preservam evidências após limpeza de worktrees e branches.
+Somente o Tech Lead anuncia HOMOLOGADA depois dos gates técnicos aprovados.
+
+## Recomeço atual
+
+O produto está bloqueado em ESTABILIZACAO. Não iniciar o fluxo acima enquanto
+o ensaio isolado de entrega e recuperação não estiver aprovado. Consulte
+docs/governance/restart.md; nenhuma checklist textual substitui essa prova.

@@ -1,23 +1,29 @@
 ---
 name: local-homologation
-description: Build, deploy, validate, and report a Truco Online release in free local Docker infrastructure. Use for CI/CD, observability, release candidates, smoke tests, rollback, Android APK, or Expo Go homologation.
+description: Validate and deliver a release in local Docker with independent post-deploy QA and immutable evidence.
 ---
 
-# Local homologation
+# Homologação local
 
-Read `docs/governance/release-lifecycle.md` and the active ADRs before deploying.
+Leia AGENTS.md, a release ativa, os critérios aprovados e o ADR. Em manutenção
+ou antes do ensaio aprovado, não implante produto.
 
-## Boundary
+Use somente infraestrutura Docker local, sem cloud, serviços pagos ou lojas.
+v0.1 é exclusivamente web: não construir APK, Expo ou qualquer artefato mobile.
+Releases futuras só incluem mobile quando isso constar do brief aprovado.
 
-Use only local Docker, local storage, open-source dependencies, Android APK builds, and Expo Go over the local network. Do not provision cloud resources, paid services, EAS Build, App Store, Play Store, or production infrastructure.
+Implante commit imutável, valide Compose, recursos, portas, labels, saúde,
+logs e rollback. Nunca exponha segredos. Projeto de homologação:
+truco-online-hml; experimentos: truco-online-ci-ID normalizado.
 
-## Release candidate
+Registre o mesmo SHA nos serviços e nas evidências. QA independente executa
+testes pós-deploy, integração, E2E, regressão e segurança e registra comandos
+e saídas reais. Deploy saudável sozinho não comprova comportamento correto.
 
-Deploy an immutable commit from `release/vX.Y`. Validate Compose configuration before replacing the current environment. Services need health checks, bounded resource use, useful logs, and documented local ports. Do not expose secrets in images, Compose files, logs, or reports.
+Tech Lead entrega URL, SHA, PRs, evidências, limitações e rollback após todos
+os critérios aprovados serem verificados. Nunca declare sucesso só porque um
+arquivo de relatório foi preenchido.
 
-## Gate
-
-After deployment, run smoke, integration, E2E, regression, and agreed security checks against the deployed environment. Record commands, timestamps, commit, results, URL/API endpoints, APK checksum, Expo Go instructions, limitations, and rollback steps.
-
-Deployment success alone does not mean homologation. `quality_security` must approve deployed behavior, then `techlead` can set the controller to `HOMOLOGADA`.
-
+Limpeza somente de recursos exatos do próprio card, depois de verificar
+labels, mounts e ausência de uso. Não usar prune global nem excluir dados
+persistentes como limpeza incidental.

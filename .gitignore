@@ -15,3 +15,11 @@ android/.gradle/
 .runner-work/
 hermes/secrets/
 
+
+.worktrees/
+
+backups/
+
+.rehearsal/
+
+*.bundle
