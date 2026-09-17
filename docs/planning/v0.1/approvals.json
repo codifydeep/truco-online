@@ -13,15 +13,6 @@
       "sha256": "6c2ec1c4fea42fa9a803e621837d68948acdcf924e4d8a9f72a5fdd6f84713fe"
     },
     {
-      "task": "t_3c648e2e",
-      "revision": "004b610b9d20b49c6b0ed221a703d49ce644b2659e6f9fe407d04e7397e0e585",
-      "review_run": 46,
-      "author": "techlead",
-      "reviewer": "cto",
-      "path": "plan.md",
-      "sha256": "2df23d3a1f2bf168cb89989de1c582411235b07ff2e891cc9cf5437a72bd9d6a"
-    },
-    {
       "task": "t_9e3c460e",
       "revision": "5e9c3c5555e7a5c8db222e0441bbc7bf21984fab9b011293b0ecd5fe2768e758",
       "review_run": 53,
@@ -38,6 +29,15 @@
       "reviewer": "produto",
       "path": "design.md",
       "sha256": "3ce5eb1121755a6856ae6dca75e6191b54f9e3d910824ad17062334d6abcf65d"
+    },
+    {
+      "task": "t_2d0009c2",
+      "revision": "b06e5378587a687c018376493621bd399447edd3f3fca7dc35b9807e0d66a403",
+      "review_run": 77,
+      "author": "techlead",
+      "reviewer": "cto",
+      "path": "plan.md",
+      "sha256": "9cb989c5d700a48648c0ef2cf8c3a57927099da5694852fc7719f2f0e6d1f141"
     }
   ]
 }
