@@ -1,6 +1,6 @@
-# PLAN.md — Fatia de Lobby (LOB-01..07) — Product Planning
+# Histórias de usuário — Fatia de Lobby (LOB-01..07)
 
-**Tarefa:** t_10ca48e7
+**Tarefa:** t_9e3c460e
 **Perfil:** produto (AUTHOR)
 **Brief de referência:** BRIEF-TRUCO-v0.1-R1-20260916
 **SHA-256 do brief:** `273d7760dc25b2641631a98a8d3aef352883d4a92469c145154285e9dd17d403`

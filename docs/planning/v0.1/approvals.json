@@ -4,24 +4,6 @@
   "scope": "reviewed planning only; not implemented software",
   "documents": [
     {
-      "task": "t_10ca48e7",
-      "revision": "8ec024b2fa207db7b3da9a8a4d30af1bbf7fcc098a6a7308beef26a6937786c2",
-      "review_run": 12,
-      "author": "produto",
-      "reviewer": "techlead",
-      "path": "stories.md",
-      "sha256": "0293761bb1955e4a8c32d37f2f08718a8f88f62415451eaf0803ba184a81db23"
-    },
-    {
-      "task": "t_fd99c33d",
-      "revision": "4c42dd7630384ab28edace6a84e39f3d45561f50235763e07732c2a493943f4d",
-      "review_run": 43,
-      "author": "designer",
-      "reviewer": "produto",
-      "path": "design.md",
-      "sha256": "e71679e326f0bac8404a61044e575b358acd31c866ee71e9ebbda1f3b05688ac"
-    },
-    {
       "task": "t_66a7d8ef",
       "revision": "3ee02afc5cb74b385b84d8cf36139426a76cdbab9471d4a42dafdf62df88a833",
       "review_run": 35,
@@ -38,6 +20,24 @@
       "reviewer": "cto",
       "path": "plan.md",
       "sha256": "2df23d3a1f2bf168cb89989de1c582411235b07ff2e891cc9cf5437a72bd9d6a"
+    },
+    {
+      "task": "t_9e3c460e",
+      "revision": "5e9c3c5555e7a5c8db222e0441bbc7bf21984fab9b011293b0ecd5fe2768e758",
+      "review_run": 53,
+      "author": "produto",
+      "reviewer": "techlead",
+      "path": "stories.md",
+      "sha256": "48b890d330542e71c3409d81bf32a3125abd9547eb5e78707a970caae931dc7d"
+    },
+    {
+      "task": "t_10707a95",
+      "revision": "dc6b73b7b26d0f784f609f4b13c88c56fe7be9f1cb43fdc79f7bf4258ee455cf",
+      "review_run": 54,
+      "author": "designer",
+      "reviewer": "produto",
+      "path": "design.md",
+      "sha256": "3ce5eb1121755a6856ae6dca75e6191b54f9e3d910824ad17062334d6abcf65d"
     }
   ]
 }

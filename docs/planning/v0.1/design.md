@@ -1,6 +1,6 @@
 # Design de Produto — Lobby do Truco Online (Truco Paulista para 2 jogadores)
 
-**Tarefa:** t_97deb23b
+**Tarefa:** t_10707a95
 **Perfil:** designer (AUTHOR)
 **Brief de referência:** BRIEF-TRUCO-v0.1-R1-20260916 (SHA-256 `273d7760dc25b2641631a98a8d3aef352883d4a92469c145154285e9dd17d403`)
 **Escopo:** especificar fluxos e estados do lobby em português brasileiro, a partir das histórias aprovadas (LOB-01..07) e da fatia do Produto (`t_10ca48e7`): entrada/apelido, vazio/carregando/erro, criação/espera, disputa/lotação, desconexão e transição pré-jogo, incluindo acessibilidade, responsividade desktop e mapeamento LOB. **Wireframes textuais** — sem HTML/JS, sem implementação 3D nesta etapa.
