@@ -10,6 +10,9 @@ python3 scripts/ci/check-generated-contract.py
 
 if [[ -f package.json ]]; then
   ran=1
+  if ! command -v node >/dev/null; then
+    bash scripts/ci/node-checks.sh
+  else
   if [[ -f pnpm-lock.yaml ]]; then
     corepack enable
     pnpm install --frozen-lockfile
@@ -33,6 +36,7 @@ if [[ -f package.json ]]; then
 
   if [[ -f package-lock.json ]]; then
     npm audit --audit-level=high
+  fi
   fi
 fi
 

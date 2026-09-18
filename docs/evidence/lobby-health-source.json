@@ -1,0 +1,21 @@
+{
+  "attempt": "truco-restart-20260911",
+  "task": "t_47a4ef4c",
+  "revision": "c5c7e9d78ed7abc2946d9c47314804d1b6ee10f866cc472a7b04066226adf009",
+  "files": {
+    "package.json": "{\"name\":\"truco-online\",\"private\":true,\"type\":\"module\"}\n",
+    "server/app.ts": "import Fastify from \"fastify\";\nexport function buildApp() {\n  const app = Fastify();\n  app.get(\"/health\", async () => ({ status: \"ok\" }));\n  return app;\n}\n",
+    "tests/regression.test.ts": "import {test,expect} from \"vitest\";\nimport {buildApp} from \"../server/app.js\";\ntest(\"unknown routes stay 404\", async()=>{const app=buildApp();try{const r=await app.inject({method:\"GET\",url:\"/not-a-route\"});expect(r.statusCode).toBe(404);}finally{await app.close();}});\n",
+    "tests/health.test.ts": "import {test,expect} from \"vitest\";\nimport {buildApp} from \"../server/app.js\";\ntest(\"GET /health returns 200 with status ok\", async()=>{\n  const app=buildApp();\n  try{\n    const r=await app.inject({method:\"GET\",url:\"/health\"});\n    expect(r.statusCode).toBe(200);\n    expect(r.json()).toEqual({status:\"ok\"});\n  } finally { await app.close(); }\n});\n"
+  },
+  "image": "sha256:a8ede02d279012a7e77bd614dc59607187bf50572e7fa26e84cbc825ba07c1eb",
+  "author": "backend_data",
+  "reviewer": "techlead",
+  "review_run": 2,
+  "evidence_sha256": "07db1ad62698f9d77c18309a019593a5460db49dbc4339c02620f1995bee7b95",
+  "validation_sha256": "a5c928d430e3686fddda8655dfd4e8913f96451c1d29a9c97bc0df1587e83e40",
+  "pr_approved": false,
+  "release_homologated": false,
+  "packaging_changed": true,
+  "note": "Source/tests are unchanged from snapshot. Packaging and Docker CI fallback are new operator-authored changes requiring independent CTO review. No homologation."
+}
