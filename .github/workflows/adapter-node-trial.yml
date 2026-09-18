@@ -1,0 +1,26 @@
+name: adapter-node-trial
+on:
+  pull_request:
+    branches: ["codex/adapter-node-base-20260918"]
+permissions:
+  contents: read
+jobs:
+  adapter-node-contract:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'codex/adapter-node-build-20260918'
+    runs-on: [self-hosted, linux, arm64, truco-local]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify approved snapshot and run isolated Node tests
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          trusted=$(mktemp "${RUNNER_TEMP}/adapter-ci.XXXXXX.py")
+          git show "${BASE_SHA}:adapter-control/ci.py" > "$trusted"
+          python3 "$trusted"
