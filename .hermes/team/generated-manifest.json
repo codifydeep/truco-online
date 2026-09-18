@@ -32,7 +32,7 @@
     "docs/governance/tdd-policy.md": "84eecb932df0e1520f6f42f036b1fe3da20e1d06d198b879359a28d3066bc935",
     "docs/product/ceo-goal-v0.1.md": "94a8e4fb36a3e5c4324167cc0b1d1582aee4ffdd5a9620893a5d858fb3a0ebd6",
     "scripts/ci/check-docker-naming.sh": "283faa1c0fe651cb8b3c2c1d5c85f300b91796a611582637f8ca9a4191b1e780",
-    "scripts/ci/run-project-checks.sh": "69374156007e4ee832b30fe153fb8a02dfde3eacee58377264946f67cfcbca7c",
+    "scripts/ci/run-project-checks.sh": "58fae4648684dcda028ce9c72ead9a5d4f986465074083feb9142c246426d6c2",
     "scripts/ci/check-planning-snapshots.py": "d0eeff64cc2a7ff98dc443006a25ccfd35596621f37731922a9d9faaf1fc0969",
     "scripts/ci/check-generated-contract.py": "0aacdb67c92e4b49f1e63bae403d2f323ce5fa1c70044579cbf21bdca51022a8",
     "scripts/ci/test_planning_snapshots.py": "002c4a49f513e7ee4d09b52284f33bdc3f2a34607f65c363cf1d81adcf95bc2c",
