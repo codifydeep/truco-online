@@ -1,0 +1,43 @@
+{
+  "attempt": "truco-restart-20260911",
+  "brief_sha256": "273d7760dc25b2641631a98a8d3aef352883d4a92469c145154285e9dd17d403",
+  "scope": "reviewed planning only; not implemented software",
+  "documents": [
+    {
+      "task": "t_66a7d8ef",
+      "revision": "3ee02afc5cb74b385b84d8cf36139426a76cdbab9471d4a42dafdf62df88a833",
+      "review_run": 35,
+      "author": "cto",
+      "reviewer": "techlead",
+      "path": "architecture.md",
+      "sha256": "6c2ec1c4fea42fa9a803e621837d68948acdcf924e4d8a9f72a5fdd6f84713fe"
+    },
+    {
+      "task": "t_9e3c460e",
+      "revision": "5e9c3c5555e7a5c8db222e0441bbc7bf21984fab9b011293b0ecd5fe2768e758",
+      "review_run": 53,
+      "author": "produto",
+      "reviewer": "techlead",
+      "path": "stories.md",
+      "sha256": "48b890d330542e71c3409d81bf32a3125abd9547eb5e78707a970caae931dc7d"
+    },
+    {
+      "task": "t_10707a95",
+      "revision": "dc6b73b7b26d0f784f609f4b13c88c56fe7be9f1cb43fdc79f7bf4258ee455cf",
+      "review_run": 54,
+      "author": "designer",
+      "reviewer": "produto",
+      "path": "design.md",
+      "sha256": "3ce5eb1121755a6856ae6dca75e6191b54f9e3d910824ad17062334d6abcf65d"
+    },
+    {
+      "task": "t_2d0009c2",
+      "revision": "b06e5378587a687c018376493621bd399447edd3f3fca7dc35b9807e0d66a403",
+      "review_run": 77,
+      "author": "techlead",
+      "reviewer": "cto",
+      "path": "plan.md",
+      "sha256": "9cb989c5d700a48648c0ef2cf8c3a57927099da5694852fc7719f2f0e6d1f141"
+    }
+  ]
+}

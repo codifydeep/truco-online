@@ -1,48 +1,50 @@
 ---
 name: company-delivery-contract
-description: Govern a Hermes SaaS release from CEO brief through local homologation, including Kanban continuity, handoffs, blockers, SPIKE experiments, and terminal release states. Use for planning, coordinating, reviewing, or reporting any Truco Online release work.
+description: Contrato canônico de execução da equipe Hermes.
 ---
 
-# Company delivery contract
+# Contrato operacional único — recomeço 2026-09-11
 
-Read `AGENTS.md` and `docs/governance/release-lifecycle.md` before mutating the board or declaring progress.
-Use `.hermes/templates/release-controller.md` when creating a controller and `.hermes/templates/spike.md` when converting a repeated impasse into an experiment.
+## Isolamento de execução e manutenção
 
-## Invariants
+Consulte /opt/data/governance/execution.json antes de operar. Em ESTABILIZACAO, com product_dispatch_enabled=false ou MAINTENANCE no board, não inicie trabalho de produto. A nova tentativa não herda cards, aprovações, stack ou decisões da anterior. Não use boards arquivados, cron antigo ou memória como autoridade. O ensaio isolado deve passar antes de um novo brief ser apresentado ao CEO.
 
-- Keep one active release and one controller card named `RELEASE-vX.Y`.
-- Treat release state as controller metadata; do not invent Kanban columns.
-- Never infer release completion from the end of a chat turn, an idle queue, a failed worker, or a count of handoffs.
-- Only `HOMOLOGADA` is successful. Only the CEO may set `CANCELADA_PELO_CEO`.
-- Ask the CEO after brief approval only for business scope, intentional test-contract exceptions, indispensable credentials, or decisions that cannot be tested locally.
-- Persist decisions in the repository or Kanban before relying on them.
+Cada release, card, handoff, incidente, pergunta e notificação pertence a um identificador de tentativa. A versão comercial v0.1 não identifica sozinha uma tentativa. Eventos de outra tentativa são inválidos. Aprovação do brief identifica seu hash e os critérios completos; não pode ser reaproveitada de uma versão antiga do documento.
 
-## Make every handoff productive
+## Autoridade e fontes
 
-Provide the next profile with the card ID, decision or deliverable required, acceptance criterion, dependencies, and relevant artifact paths. Avoid acknowledgement-only messages. Mention one next bot unless work is deliberately parallel.
+CEO define necessidades dos usuários, prioridade, escopo e aprova o brief. CTO decide arquitetura, stack e impasses técnicos. Tech Lead organiza/revisa/integra; especialistas executam. Peça credenciais, autorização ou exceção explícita de risco apenas quando indispensável. Timeout, merge, diagnóstico e escolha de agente NÃO são decisões do CEO. Nenhum dado sensível no chat/Git.
 
-Telegram routing is literal. A role name in prose does not activate a bot. Read `.hermes/team/telegram-roster.yaml` immediately before the handoff and include the exact `@username` of every intended recipient. Never ask the CEO what another profile wants; address that profile directly.
+Leia o card, comentários posteriores ao bloqueio, brief aprovado, ADRs e AGENTS.md antes de agir. Evidência real prevalece sobre narrativa e memória. Não invente regras, arquivos, resultados ou benchmarks. Produto pesquisa fontes; CTO mede hipóteses. Contradição técnica exige diagnóstico, não aprovação humana automática.
 
-Use only the canonical Kanban assignees `produto`, `designer`, `cto`, `techlead`, `backend_data`, `frontend`, `mobile`, `devops`, and `quality_security`. Validate the assignee with `hermes kanban assignees` before creating or reassigning work. Do not use translated role labels or improvised aliases.
+## Uma release, trabalho persistente
 
-After the CEO approves the Product Brief, `produto` must persist it in the repository, complete the discovery card, and hand off explicitly to `@techlead_truco_poc_bot`. From then on, the Tech Lead owns ordering, dependencies, parallelism, and specialist assignment. Product must not implement UI, backend, infrastructure, tests, or production code and must not ask the CEO to select an implementer.
+Uma versão ativa; controlador RELEASE é sentinela, nunca pai bloqueante nem worker de implementação. Sem limite de handoffs. Fim de mensagem não encerra versão. Sucesso só com homologação comprovada; somente CEO cancela. v0.1 é exclusivamente web, 2 jogadores, sem autenticação, Truco Paulista, jogo 3D local. Não criar APK/Expo nem auth para v0.1.
 
-Do not link executable cards with `RELEASE-vX.Y` as their dependency parent. Hermes releases a child only after its parent is done, but the controller must stay open until homologation. Track release membership in controller comments/metadata and use links only for dependencies that are expected to complete.
+Produto entrevista, registra brief e aprovação. Tech Lead prepara plano revisado e integrado, depois GRAPH com critérios de aceite vinculados a cards e dependências acíclicas. GRAPH é revisado antes de liberar seus filhos. Não duplicar PLAN/GOVERNANCE/RELEASE para escapar de bloqueio. Todos os critérios do brief precisam de implementação e validação, não apenas cards convenientemente concluídos.
 
-Never report a file, command, commit, PR, test, deployment, or URL from imagination. Verify artifacts in the assigned worktree, run the required checks, commit them, and record the exact SHA and PR URL. If evidence cannot be produced, block the card with the concrete failure. Reviewers must inspect real repository evidence rather than accepting a Kanban comment as proof.
+## Trabalho e revisão
 
-Run repository checks against content Git can actually see. For new files, stage them before using `git diff --cached --check`; after committing, run `git show --check --oneline HEAD` and confirm `git status --porcelain` is empty. A plain `git diff --check` does not inspect untracked files and is not sufficient evidence.
+Antes de editar: pwd = workspace_path do card; branch = branch atribuída. Não editar checkout raiz nem worktree alheio. Atualizar base com origin/release da versão antes de começar, preservando mudanças; conflito vai para Tech Lead. Incidente pode LER worktree original para diagnóstico, nunca alterá-lo; scratch vazio não prova original limpo.
 
-Run GitHub commands from the assigned Git worktree. Open a release PR with the explicit shape `gh pr create --base release/vX.Y --head <current-branch> --title <title> --body <body>` and then verify it with `gh pr view --json number,url,state,baseRefName,headRefName`. Do not use `--web` for non-interactive verification, do not pass a stray positional `HEAD`, do not use the feature branch as `--base`, and do not pass Telegram bot usernames to `--reviewer`: the PoC uses one GitHub account, so logical reviewer independence is recorded by the Hermes profile in the Kanban and in a PR comment. If a PR already exists for the head branch, inspect and reuse it instead of creating a duplicate.
+Código: Red-Green-Refactor com comando, falha esperada e resultados; suíte completa, lint, tipos, build e segurança. Documento: verificação factual e de consistência, sem inventar etapa Red. Não excluir, renomear, pular ou enfraquecer testes existentes. Contrato funcional intencionalmente alterado requer card separado e aprovação do CEO; correção técnica segue CTO/revisor. Não modificar guard para aprovar o próprio produto.
 
-For new work, use the Kanban's first-class review transition on the implementation card. After the PR and evidence exist, the implementer calls `request-review` with the independent reviewer profile instead of completing the task. The reviewer completes that same task on approval or calls `request-changes` with concrete reasons so Hermes restores the original implementer. Do not create a separate review card for new work.
+Commit limpo + PR contra release ativa + SHA e testes no card. request-review indica revisor conforme matriz: produto→techlead; designer→produto; cto→techlead; techlead→cto; backend_data/frontend/mobile→techlead; devops→quality_security; quality_security→techlead. Revisor não implementa correção nem pede nova revisão de si; usa request-changes ao autor ou aprova após inspecionar diff/evidências/CI. Novo SHA invalida avaliação anterior. Sem auto-revisão lógica mesmo com conta GitHub única.
 
-A reviewer must inspect the real PR even when its starting worktree does not contain the author's feature files. Use `gh pr view <number> -R codifydeep/truco-online --json number,url,state,baseRefName,headRefName,commits,files` and `gh pr diff <number> -R codifydeep/truco-online`. When full-file inspection or local checks are needed, run `git fetch origin <head-branch>` and read a file with `git show origin/<head-branch>:<path>`, or detach the review worktree at `origin/<head-branch>` without pushing changes. Do not claim that an artifact is missing merely because it is absent from the review run's starting branch.
+Merge pertence ao revisor técnico, após CI verde da base atual e revisão. Usar merge commit para preservar SHA auditável. Nunca force-push, unrelated-histories, ignorar CI ou sobrescrever worktree como recuperação genérica. Concluir card somente após provar integração remota. Main aceita apenas PR revisado de fundação/governança autorizado; produto integra na release ativa.
 
-When an impasse repeats without new evidence, create a `SPIKE` card. State hypotheses, a local experiment, expected evidence, and a decision rule. Resume delivery from the result; do not close the release.
+Para aprovar/integrar, o worker REVISOR executa `/opt/hermes/.venv/bin/python /opt/hermes/review_merge.py --task ID --pr NUMERO --sha SHA --evidence-text 'Análise independente detalhada: diff inspecionado, resultados, riscos e decisão'`. Também existe `--evidence CAMINHO` para arquivo de análise acessível, sem modificar o worktree revisado. O controlador verifica identidade/run, matriz, PR/SHA/branch, limpeza e CI, registra análise, publica `hermes-independent-review` e pede merge ao GitHub com o SHA exato. Sem esse check o GitHub bloqueia merge. Se falhar, corrija causa ou peça mudanças; não emita status manualmente.
 
-After two failed task attempts, diagnose and either correct prerequisites, split the card, or reassign it. External human blockers use `BLOQUEADA_AGUARDANDO_CEO` and resume from the preserved graph.
+## Comunicação e incidentes
 
-## Homologation evidence
+Anunciar início e término/bloqueio com card, artefato, resultado e próximo responsável. Ler username EXATO no roster; uma mensagem = destinatário responsável + ação. Não misturar pergunta ao CEO e solicitação ao CTO. Telegram informa; Kanban despacha. Registrar aceite/ação no card, não confiar só na menção.
 
-Before setting `HOMOLOGADA`, verify the exact release commit, CI, deployed health checks, regression/E2E/security results, URL/API endpoints, mobile artifacts, and known limitations. Record the evidence in the controller card and release report.
+Impedimento: categoria, causa, comandos/logs, condição objetiva de retomada. Supervisor cria INCIDENT independente do DAG; especialista→Tech Lead→CTO. Cada ocorrência recebe identidade própria; sem recursão de INCIDENT/RECOVERY. CTO executa hipótese/experimento limitado com especialista; não repete retry sem mudança de evidência. Dois reclaims sem progresso estacionam para diagnóstico. Dez minutos sem progresso geram alerta; trinta exigem escalonamento ou experimento. Heartbeat, worker vivo e card ready não provam recuperação. SPIKE registra hipótese, critério, comandos e saídas reais; conclusão do experimento não conclui o incidente.
+
+Pergunta humana: categoria produto/escopo, credencial/autorização ou exceção de risco; pergunta exata, opções, recomendação, card afetado. Ler resposta existente antes de perguntar novamente. APROVO em comentário não desbloqueia ferramentas nem executa unblock. Registrar escopo verificado, tratar autorização nativa se necessária, então retomar o mesmo card pelo Kanban. Não contornar proteção via terminal. Se ferramenta exigir aprovação inacessível no worker, preparar patch e operação exatos ao operador; não fingir que a palavra no Telegram habilitou tudo.
+
+## Local, segurança e homologação
+
+Inferência autorizada pelo CEO: deepseek/deepseek-v4-flash-0731 via OpenRouter; sem fallback automático. Limite de 40 iterações por execução. Credenciais somente no ambiente privado, nunca no Git, Telegram ou cards. Aplicação, CI, dados e homologação continuam exclusivamente em Docker local gratuito; a autorização de inferência não autoriza outros serviços cloud ou builds externos. No máximo 2 workers e 1 por perfil. Docker com projetos truco-online-dev/hml/ci-ID, labels com.codifydeep.project/environment/kanban; homologação também org.opencontainers.image.revision=SHA. Healthchecks obrigatórios. Sem prune global. Dados persistentes não são descartáveis. Recurso de teste exige limpeza exata do proprietário.
+
+QA valida pós-deploy do mesmo SHA, incluindo regressão, E2E, isolamento de cartas/sessões, reconexão e segurança. DevOps prova containers saudáveis, URL e rollback. Tech Lead prepara docs/releases/vX.Y/homologation.json com aprovação do brief, critérios→cards, QA/deploy por perfil e evidências, SHA/containers, limitações e rollback. Gate consulta relatório integrado e Docker real. Um JSON ou processo vivo não substitui evidência. Se gate recusar, resolver a causa, nunca anunciar HOMOLOGADA.

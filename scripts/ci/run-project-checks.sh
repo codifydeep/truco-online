@@ -4,6 +4,9 @@ set -euo pipefail
 ran=0
 
 scripts/ci/check-docker-naming.sh
+python3 -m unittest discover -s scripts/ci -p 'test_*.py'
+python3 scripts/ci/check-planning-snapshots.py
+python3 scripts/ci/check-generated-contract.py
 
 if [[ -f package.json ]]; then
   ran=1
@@ -24,9 +27,8 @@ if [[ -f package.json ]]; then
   fi
 
   for script in test lint typecheck build; do
-    if node -e "const p=require('./package.json'); process.exit(p.scripts?.['${script}'] ? 0 : 1)"; then
-      "${runner[@]}" "${script}"
-    fi
+    node -e "const p=require('./package.json'); if (!p.scripts?.['${script}']) { console.error('Required script missing: ${script}'); process.exit(1); }"
+    "${runner[@]}" "${script}"
   done
 
   if [[ -f package-lock.json ]]; then
