@@ -9,11 +9,11 @@
   "max_workers": 2,
   "max_per_profile": 1,
   "skills": {
-    "frontend-design": "7ab25e093f7904389e21870a0f9744c033f95106f73b792937a24fe4ed5472e8",
-    "3d-web-experience": "051646736653a5cdc4630e3a0ff93858916f02345799aaedee252eab3ed5a350",
-    "grill-me": "997bdb4c31a0ce849404278fe7ae6748550f93e6c94e2de2576506cca09e286b",
+    "karpathy-guidelines": "2516caf06560e031d64e2768ff289237f7860cced20d4d4a3459eaedf5d15efd",
     "defuddle-research": "ee4dd802fb085f9bc319ffd80fb1f5c3df05fa48d321fc3571fdc913e6ff9e41",
-    "karpathy-guidelines": "2516caf06560e031d64e2768ff289237f7860cced20d4d4a3459eaedf5d15efd"
+    "frontend-design": "7ab25e093f7904389e21870a0f9744c033f95106f73b792937a24fe4ed5472e8",
+    "grill-me": "997bdb4c31a0ce849404278fe7ae6748550f93e6c94e2de2576506cca09e286b",
+    "3d-web-experience": "051646736653a5cdc4630e3a0ff93858916f02345799aaedee252eab3ed5a350"
   },
   "skill_assignment": {
     "produto": [
@@ -218,11 +218,11 @@
   },
   "modules": {
     "product_policy.py": "a063824688a6d1e8cc499b3fe36b5d8083abb5e9f2eb1d13a0f06ae3571156eb",
-    "product_boundary.py": "1ef715a3d3fc9a8af3c867e6800244cb2d5cc97fcf338a2e46bc04373d6677e6",
+    "product_boundary.py": "d052f2ab8d03950bdf81ecf6dcba8da358dcd0bb209b2d385cc31502b3d9d293",
     "product_claim.py": "2fa42f8815b15945cfd7562e87c79e3dc0d37b262792c30694c60d13369ab04a",
     "product_tdd.py": "b236720939b169805f088f1604b2f99d9b3283442412d2fae30b627de104f1a6",
-    "product_team.py": "ae234679d11c8c07aac22dcefe8902959788a94b3b9e703530f3fcfb541d49c0",
-    "product_memory.py": "d93677124fd4830d906221354996d4e8f216836076a86ca1380cb34354142b5d",
+    "product_team.py": "1882bee203a852d965623148a9ce76ed079f1ce22eeb05720e41dc4abeceab86",
+    "product_memory.py": "082f80492dd88e2d644468b2d1d326a7d6195879f6085d95021931a12b41d50e",
     "product_test_maintenance.py": "e149cd1f6301e04c8bc0bcb03f472aa5500f5800cbb5c62f96e3dbdfa5ed885f",
     "product_review_policy.py": "24277bd6d8088d0097638b8f8d6d868671b948e92ed6cdf28aaacf61db2799c2"
   },
