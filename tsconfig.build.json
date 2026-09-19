@@ -1,1 +1,10 @@
-{"extends":"./tsconfig.json","include":["server/**/*.ts"],"compilerOptions":{"rootDir":"server"}}
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "server/**/*.ts",
+    "shared/**/*.ts"
+  ],
+  "compilerOptions": {
+    "rootDir": "."
+  }
+}
