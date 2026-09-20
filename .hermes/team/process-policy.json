@@ -1,0 +1,230 @@
+{
+  "version": "company-process-20260919-v2",
+  "model": {
+    "default": "deepseek/deepseek-v4-flash-0731",
+    "provider": "openrouter"
+  },
+  "fallback": false,
+  "max_turns": 40,
+  "max_workers": 2,
+  "max_per_profile": 1,
+  "skills": {
+    "karpathy-guidelines": "2516caf06560e031d64e2768ff289237f7860cced20d4d4a3459eaedf5d15efd",
+    "3d-web-experience": "051646736653a5cdc4630e3a0ff93858916f02345799aaedee252eab3ed5a350",
+    "frontend-design": "7ab25e093f7904389e21870a0f9744c033f95106f73b792937a24fe4ed5472e8",
+    "grill-me": "997bdb4c31a0ce849404278fe7ae6748550f93e6c94e2de2576506cca09e286b",
+    "defuddle-research": "ee4dd802fb085f9bc319ffd80fb1f5c3df05fa48d321fc3571fdc913e6ff9e41"
+  },
+  "skill_assignment": {
+    "produto": [
+      "karpathy-guidelines",
+      "defuddle-research",
+      "grill-me"
+    ],
+    "designer": [
+      "karpathy-guidelines",
+      "frontend-design",
+      "3d-web-experience",
+      "defuddle-research"
+    ],
+    "cto": [
+      "karpathy-guidelines",
+      "3d-web-experience",
+      "defuddle-research"
+    ],
+    "techlead": [
+      "karpathy-guidelines"
+    ],
+    "backend_data": [
+      "karpathy-guidelines"
+    ],
+    "frontend": [
+      "karpathy-guidelines",
+      "frontend-design",
+      "3d-web-experience"
+    ],
+    "mobile": [
+      "karpathy-guidelines"
+    ],
+    "devops": [
+      "karpathy-guidelines"
+    ],
+    "quality_security": [
+      "karpathy-guidelines"
+    ]
+  },
+  "roles": {
+    "produto": "Own user needs, scope, acceptance and research. Never decide technical architecture for the CEO.",
+    "designer": "Own interaction, accessibility, design artifacts and visual validation; collaborate with frontend.",
+    "cto": "Own cross-cutting architecture, security exceptions and evidenced technical impasses. Not a routine microtask approver.",
+    "techlead": "Own delivery flow, dependencies, integration and everyday technical decisions; delegate specialist work.",
+    "backend_data": "Implement backend and data contracts with behavioral TDD, concurrency and regression evidence.",
+    "frontend": "Implement web behavior, accessibility, rendering and performance with automated tests.",
+    "mobile": "Activate only for an approved mobile scope; never manufacture work for a web-only release.",
+    "devops": "Own local CI, environments, reliability and team-platform capabilities; use controller operations, never host credentials.",
+    "quality_security": "Own test strategy, independent acceptance and security analysis. Separate QA and security findings; never self-review code."
+  },
+  "capabilities": {
+    "planning": {
+      "authors": [
+        "techlead"
+      ],
+      "reviewers": [
+        "quality_security",
+        "cto"
+      ],
+      "default_reviewer": "quality_security",
+      "risk": "routine",
+      "adapter": "coordination"
+    },
+    "architecture": {
+      "authors": [
+        "cto"
+      ],
+      "reviewers": [
+        "techlead"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "high",
+      "adapter": "coordination"
+    },
+    "test_maintenance": {
+      "authors": [
+        "quality_security"
+      ],
+      "reviewers": [
+        "techlead"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "controlled",
+      "adapter": "coordination"
+    },
+    "technical_recovery": {
+      "authors": [
+        "techlead",
+        "cto"
+      ],
+      "reviewers": [
+        "cto",
+        "techlead"
+      ],
+      "default_reviewer": null,
+      "risk": "high",
+      "adapter": "coordination"
+    },
+    "backend": {
+      "authors": [
+        "backend_data"
+      ],
+      "reviewers": [
+        "techlead",
+        "quality_security"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "routine",
+      "adapter": "lobby-ts"
+    },
+    "frontend": {
+      "authors": [
+        "frontend"
+      ],
+      "reviewers": [
+        "techlead",
+        "quality_security"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "routine",
+      "adapter": "lobby-ts"
+    },
+    "quality": {
+      "authors": [
+        "quality_security"
+      ],
+      "reviewers": [
+        "techlead"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "controlled",
+      "adapter": "lobby-ts"
+    },
+    "design": {
+      "authors": [
+        "designer"
+      ],
+      "reviewers": [
+        "produto",
+        "frontend"
+      ],
+      "default_reviewer": "produto",
+      "risk": "routine",
+      "adapter": "document"
+    },
+    "product": {
+      "authors": [
+        "produto"
+      ],
+      "reviewers": [
+        "quality_security",
+        "techlead"
+      ],
+      "default_reviewer": "quality_security",
+      "risk": "routine",
+      "adapter": "document"
+    },
+    "platform": {
+      "authors": [
+        "devops"
+      ],
+      "reviewers": [
+        "cto",
+        "quality_security"
+      ],
+      "default_reviewer": "cto",
+      "risk": "high",
+      "adapter": "platform"
+    },
+    "deployment": {
+      "authors": [
+        "devops"
+      ],
+      "reviewers": [
+        "quality_security"
+      ],
+      "default_reviewer": "quality_security",
+      "risk": "controlled",
+      "adapter": "deployment"
+    },
+    "knowledge": {
+      "authors": [
+        "produto",
+        "designer",
+        "cto",
+        "techlead",
+        "backend_data",
+        "frontend",
+        "mobile",
+        "devops",
+        "quality_security"
+      ],
+      "reviewers": [
+        "produto",
+        "techlead",
+        "quality_security"
+      ],
+      "default_reviewer": "techlead",
+      "risk": "routine",
+      "adapter": "coordination"
+    }
+  },
+  "modules": {
+    "product_policy.py": "a063824688a6d1e8cc499b3fe36b5d8083abb5e9f2eb1d13a0f06ae3571156eb",
+    "product_boundary.py": "31763711bf968e0360f9a0983299a736200d3354f1e4923a6053a3af84971e29",
+    "product_claim.py": "2fa42f8815b15945cfd7562e87c79e3dc0d37b262792c30694c60d13369ab04a",
+    "product_tdd.py": "b236720939b169805f088f1604b2f99d9b3283442412d2fae30b627de104f1a6",
+    "product_team.py": "a3834b2b526217d9dabaa47ae6560f429b2fa765bd4ff28e429efbf02ec20d3f",
+    "product_memory.py": "082f80492dd88e2d644468b2d1d326a7d6195879f6085d95021931a12b41d50e",
+    "product_test_maintenance.py": "e149cd1f6301e04c8bc0bcb03f472aa5500f5800cbb5c62f96e3dbdfa5ed885f",
+    "product_review_policy.py": "24277bd6d8088d0097638b8f8d6d868671b948e92ed6cdf28aaacf61db2799c2"
+  },
+  "authority": "controller_registration_not_agent_text"
+}
