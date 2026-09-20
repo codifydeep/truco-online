@@ -1,19 +1,13 @@
-// Shared error envelope per the approved ADR error contract, consumed by both
-// the HTTP and WebSocket transports. A pure serializer: no sessions/rooms
-// logic, no I/O, no HTTP/WS coupling lives here.
+// Server-facing error contract for the unified error envelope (TDD-01a).
+// The canonical code register (ERROR_CODES / ErrorCode) is owned by the shared
+// module and re-exported here so server and shared can never drift: a single
+// authoritative register. This file only adds the transport-side canonical
+// default messages and the errorEnvelope helper; no sessions/rooms logic, no
+// I/O, no HTTP/WS coupling lives here.
 
-export const ERROR_CODES = [
-  "NICKNAME_EMPTY",
-  "NICKNAME_INVALID",
-  "SESSION_INVALID",
-  "SESSION_ALREADY_IN_ROOM",
-  "ROOM_NOT_FOUND",
-  "ROOM_FULL",
-  "INVALID_OPERATION",
-  "RATE_LIMITED",
-] as const;
+import { ERROR_CODES, type ErrorCode } from "../shared/src/errors.js";
 
-export type ErrorCode = (typeof ERROR_CODES)[number];
+export { ERROR_CODES, type ErrorCode };
 
 export interface ErrorEnvelope {
   error: {
