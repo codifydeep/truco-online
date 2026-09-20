@@ -5,7 +5,7 @@
 // HTTP statuses and serializes the unified HTTP/WS error envelopes. Consumed by
 // server and web from TDD-02 onward.
 
-/** The seven canonical Truco v0.1 error codes, per the approved ADR. */
+/** The eight canonical Truco v0.1 error codes, per the approved ADR. */
 export const ERROR_CODES = [
   "NICKNAME_EMPTY",
   "NICKNAME_INVALID",
@@ -14,6 +14,7 @@ export const ERROR_CODES = [
   "ROOM_NOT_FOUND",
   "ROOM_FULL",
   "INVALID_OPERATION",
+  "RATE_LIMITED",
 ] as const;
 
 export type ErrorCode = (typeof ERROR_CODES)[number];
@@ -27,6 +28,7 @@ export const ERROR_HTTP_STATUS: Record<ErrorCode, number> = {
   ROOM_NOT_FOUND: 404,
   ROOM_FULL: 409,
   INVALID_OPERATION: 400,
+  RATE_LIMITED: 429,
 };
 
 /** Unified HTTP error envelope: { error: { code, message, requestId } }. */
@@ -71,4 +73,15 @@ export function encodeWsError(code: ErrorCode, message: string): string {
 /** Parse a JSON string back into the unified WebSocket error envelope. */
 export function decodeWsError(payload: string): WsErrorEnvelope {
   return JSON.parse(payload) as WsErrorEnvelope;
+}
+
+// ---- crypto-random requestId generation (TDD-01a) ----
+
+/**
+ * Generate a crypto-random requestId for a unified error envelope.
+ * Backed by the Node global `crypto.randomUUID()` (RFC 4122 UUIDv4), which
+ * uses a CSPRNG and therefore yields a fresh, unpredictable value per call.
+ */
+export function generateRequestId(): string {
+  return crypto.randomUUID();
 }

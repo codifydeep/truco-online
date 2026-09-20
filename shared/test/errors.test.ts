@@ -11,7 +11,7 @@ import {
 } from "../src/errors.js";
 
 describe("canonical error register", () => {
-  test("registers exactly the seven canonical error codes", () => {
+  test("registers exactly the eight canonical error codes", () => {
     expect([...ERROR_CODES]).toEqual([
       "NICKNAME_EMPTY",
       "NICKNAME_INVALID",
@@ -20,6 +20,7 @@ describe("canonical error register", () => {
       "ROOM_NOT_FOUND",
       "ROOM_FULL",
       "INVALID_OPERATION",
+      "RATE_LIMITED",
     ]);
   });
 
@@ -38,6 +39,7 @@ describe("canonical error register", () => {
       ROOM_NOT_FOUND: 404,
       ROOM_FULL: 409,
       INVALID_OPERATION: 400,
+      RATE_LIMITED: 429,
     });
   });
 });
