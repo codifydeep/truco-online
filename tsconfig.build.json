@@ -2,9 +2,12 @@
   "extends": "./tsconfig.json",
   "include": [
     "server/**/*.ts",
-    "shared/**/*.ts"
+    "shared/**/*.ts",
+    "web/**/*.ts",
+    "web/**/*.tsx"
   ],
   "compilerOptions": {
-    "rootDir": "."
+    "rootDir": ".",
+    "jsx": "react-jsx"
   }
 }
